@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E7EB7246-1448-45FA-86E4-4AD192EDAD82}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ACPDV.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GeraClassesSimpleORM\GeraClassesSimpleORM.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ACPDV">
+        <MSBuild Projects="ACPDV.dproj"/>
+    </Target>
+    <Target Name="ACPDV:Clean">
+        <MSBuild Projects="ACPDV.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ACPDV:Make">
+        <MSBuild Projects="ACPDV.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GeraClassesSimpleORM">
+        <MSBuild Projects="GeraClassesSimpleORM\GeraClassesSimpleORM.dproj"/>
+    </Target>
+    <Target Name="GeraClassesSimpleORM:Clean">
+        <MSBuild Projects="GeraClassesSimpleORM\GeraClassesSimpleORM.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GeraClassesSimpleORM:Make">
+        <MSBuild Projects="GeraClassesSimpleORM\GeraClassesSimpleORM.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ACPDV;GeraClassesSimpleORM"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ACPDV:Clean;GeraClassesSimpleORM:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ACPDV:Make;GeraClassesSimpleORM:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
