@@ -21,7 +21,6 @@ type
     FSQL: string;
     FConfig: TConfiguracao;
   public
-//    constructor Create(aOwner: TComponent);
     class function New: TdmDados;
     function SQL(aSQL: string): TdmDados;
     function Params(aParam: string; aValue: Variant): TdmDados; overload;
@@ -40,12 +39,6 @@ implementation
 {$R *.dfm}
 
 { TdmDados }
-
-//constructor TdmDados.Create(aOwner: TComponent);
-//begin
-//  connBD.Params.Add('Database=..\db\ACPDV_BD.db');
-//  connBD.Connected := True;
-//end;
 
 procedure TdmDados.DataModuleCreate(Sender: TObject);
 begin
