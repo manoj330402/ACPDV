@@ -1,0 +1,107 @@
+unit ACPDV.DataModule.DAO.CST;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CST,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOCodigoANP = class(TInterfacedObject, iDAO<TCST>)
+    private
+      FCST: TCST;
+      FCSTs: TObjectList<TCST>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCST>;
+      function Listar: iDAO<TCST>;
+      function ListarPorID(aID: Variant): iDAO<TCST>;
+      function Excluir(aID: Variant): iDAO<TCST>; overload;
+      function Excluir: iDAO<TCST>; overload;
+      function Atualizar: iDAO<TCST>;
+      function Inserir: iDAO<TCST>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCST>;
+      function This: TCST;
+      function These: TObjectList<TCST>;
+  end;
+
+implementation
+
+{ TDAOCodigoANP }
+
+function TDAOCodigoANP.Atualizar: iDAO<TCST>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE CST                                                       '+
+    'SET DESCRICAO = :DESCRICAO, SIMPLES_NACIONAL = :SIMPLES_NACIONAL '+
+    'WHERE ID = :ID                                                   '
+  )
+  .Params('ID', FCST.ID)
+  .Params('DESCRICAO', FCST.Descricao)
+  .Params('SIMPLES_NACIONAL', FCST.SimplesNacional)
+  .ExecSQL;
+end;
+
+constructor TDAOCodigoANP.Create;
+begin
+
+end;
+
+function TDAOCodigoANP.DataSource(var aDataSource: TDataSource): iDAO<TCST>;
+begin
+
+end;
+
+destructor TDAOCodigoANP.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDAOCodigoANP.Excluir: iDAO<TCST>;
+begin
+
+end;
+
+function TDAOCodigoANP.Excluir(aID: Variant): iDAO<TCST>;
+begin
+
+end;
+
+function TDAOCodigoANP.Inserir: iDAO<TCST>;
+begin
+
+end;
+
+function TDAOCodigoANP.Listar: iDAO<TCST>;
+begin
+
+end;
+
+function TDAOCodigoANP.ListarPorID(aID: Variant): iDAO<TCST>;
+begin
+
+end;
+
+class function TDAOCodigoANP.New: iDAO<TCST>;
+begin
+
+end;
+
+function TDAOCodigoANP.These: TObjectList<TCST>;
+begin
+
+end;
+
+function TDAOCodigoANP.This: TCST;
+begin
+
+end;
+
+end.

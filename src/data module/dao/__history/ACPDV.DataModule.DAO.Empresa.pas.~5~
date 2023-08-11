@@ -1,0 +1,140 @@
+unit ACPDV.DataModule.DAO.Empresa;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.Empresa,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOEmpresa = class(TInterfacedObject, iDAO<TEmpresa>)
+    private
+      FEmpresa: TEmpresa;
+      FEmpresas: TObjectList<TEmpresa>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TEmpresa>;
+      function Listar: iDAO<TEmpresa>;
+      function ListarPorID(aID: Variant): iDAO<TEmpresa>;
+      function Excluir(aID: Variant): iDAO<TEmpresa>; overload;
+      function Excluir: iDAO<TEmpresa>; overload;
+      function Atualizar: iDAO<TEmpresa>;
+      function Inserir: iDAO<TEmpresa>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TEmpresa>;
+      function This: TEmpresa;
+      function These: TObjectList<TEmpresa>;
+  end;
+
+implementation
+
+{ TDAOEmpresa }
+
+function TDAOEmpresa.Atualizar: iDAO<TEmpresa>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE EMPRESA																					                                       '+
+    'SET CRT = :CRT, RAZAO_SOCIAL = :RAZAO_SOCIAL, NOME_FANTASIA = :NOME_FANTASIA, 					       '+
+    '	CNPJ = :CNPJ, IE = :IE, IM = :IM, CNAE = :CNAE, FONE = :FONE, ENDERECO = :ENDERECO, 		     '+
+    '	NUMERO = :NUMERO, COMPLEMENTO = :COMPLEMENTO, BAIRRO = :BAIRRO, CIDADE = :CIDADE, CEP = :CEP '+
+    'WHERE ID = :ID																					                                       '
+  )
+  .Params('ID', FEmpresa.ID)
+  .Params('CRT', FEmpresa.CRT)
+  .Params('RAZAO_SOCIAL', FEmpresa.RazaoSocial)
+  .Params('NOME_FANTASIA', FEmpresa.NomeFantasia)
+  .Params('CNPJ', FEmpresa.CNPJ)
+  .Params('IE', FEmpresa.IE)
+  .Params('IM', FEmpresa.IM)
+  .Params('CNAE', FEmpresa.CNAE)
+  .Params('FONE', FEmpresa.Fone)
+  .Params('ENDERECO', FEmpresa.Endereco)
+  .Params('NUMERO', FEmpresa.Numero)
+  .Params('COMPLEMENTO', FEmpresa.Complemento)
+  .Params('BAIRRO', FEmpresa.Bairro)
+  .Params('CIDADE', FEmpresa.Cidade)
+  .Params('CEP', FEmpresa.CEP)
+  .ExecSQL;
+end;
+
+constructor TDAOEmpresa.Create;
+begin
+  FEmpresa := TEmpresa.New;
+  FEmpresas := TObjectList<TEmpresa>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOEmpresa.DataSource(var aDataSource: TDataSource): iDAO<TEmpresa>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOEmpresa.Destroy;
+begin
+  FreeAndNil(FEmpresa);
+  FreeAndNil(FEmpresas);
+  FreeAndNil(FConexaoDB);
+  inherited;
+end;
+
+function TDAOEmpresa.Excluir: iDAO<TEmpresa>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM EMPRESA '+
+    'WHERE ID = :ID      '
+  )
+  .Params('ID', FEmpresa.ID)
+  .ExecSQL;
+end;
+
+function TDAOEmpresa.Excluir(aID: Variant): iDAO<TEmpresa>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM EMPRESA '+
+    'WHERE ID = :ID      '
+  )
+  .Params('ID', aID)
+  .ExecSQL;
+end;
+
+function TDAOEmpresa.Inserir: iDAO<TEmpresa>;
+begin
+
+end;
+
+function TDAOEmpresa.Listar: iDAO<TEmpresa>;
+begin
+
+end;
+
+function TDAOEmpresa.ListarPorID(aID: Variant): iDAO<TEmpresa>;
+begin
+
+end;
+
+class function TDAOEmpresa.New: iDAO<TEmpresa>;
+begin
+
+end;
+
+function TDAOEmpresa.These: TObjectList<TEmpresa>;
+begin
+
+end;
+
+function TDAOEmpresa.This: TEmpresa;
+begin
+
+end;
+
+end.

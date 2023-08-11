@@ -1,0 +1,130 @@
+unit ACPDV.Objeto.AbrirCaixa;
+
+interface
+
+uses
+  System.SysUtils, System.TypInfo, System.DateUtils;
+
+type
+  TTurno = (Manha, Tarde, Noite, Madrugada);
+
+  TTurnoHelper = record helper for TTurno
+    function ToString: String;
+    function TEnum(aValue: String): TTurno;
+    function RetornaTurno(aValue: TDateTime): TTurno;
+  end;
+
+  TAbrirCaixa = class
+    private
+      FID: Integer;
+      FCaixa: Integer;
+      FSupervisor: String;
+      FOperador: String;
+      FDataHoraAbertura: TDateTime;
+      FAberto: Boolean;
+      FSaldoInicial: Currency;
+      FTurno: TTurno;
+      FDataHoraFechamento: TDateTime;
+      procedure SetID(const Value: Integer);
+      procedure SetCaixa(const Value: Integer);
+      procedure SetAberto(const Value: Boolean);
+      procedure SetDataHoraAbertura(const Value: TDateTime);
+      procedure SetOperador(const Value: String);
+      procedure SetSaldoInicial(const Value: Currency);
+      procedure SetSupervisor(const Value: String);
+      procedure SetTurno(const Value: TTurno);
+    procedure SetDataHoraFechamento(const Value: TDateTime);
+    public
+      property ID: Integer read FID write SetID;
+      property Caixa: Integer read FCaixa write SetCaixa;
+      property Turno: TTurno read FTurno write SetTurno;
+      property Operador: string read FOperador write SetOperador;
+      property Supervisor: string read FSupervisor write SetSupervisor;
+      property Aberto: Boolean read FAberto write SetAberto;
+      property DataHoraAbertura: TDateTime read FDataHoraAbertura write SetDataHoraAbertura;
+      property DataHoraFechamento: TDateTime read FDataHoraFechamento write SetDataHoraFechamento;
+      property SaldoInicial: Currency read FSaldoInicial write SetSaldoInicial;
+      class function New: TAbrirCaixa;
+  end;
+
+implementation
+
+{ TCaixa }
+
+class function TAbrirCaixa.New: TAbrirCaixa;
+begin
+  Result := Self.Create;
+end;
+
+procedure TAbrirCaixa.SetAberto(const Value: Boolean);
+begin
+  FAberto := Value;
+end;
+
+procedure TAbrirCaixa.SetCaixa(const Value: Integer);
+begin
+  FCaixa := Value;
+end;
+
+procedure TAbrirCaixa.SetDataHoraAbertura(const Value: TDateTime);
+begin
+  FDataHoraAbertura := Value;
+end;
+
+procedure TAbrirCaixa.SetDataHoraFechamento(const Value: TDateTime);
+begin
+  FDataHoraFechamento := Value;
+end;
+
+procedure TAbrirCaixa.SetID(const Value: Integer);
+begin
+  FID := Value;
+end;
+
+procedure TAbrirCaixa.SetOperador(const Value: String);
+begin
+  FOperador := Value;
+end;
+
+procedure TAbrirCaixa.SetSaldoInicial(const Value: Currency);
+begin
+  FSaldoInicial := Value;
+end;
+
+procedure TAbrirCaixa.SetSupervisor(const Value: String);
+begin
+  FSupervisor := Value;
+end;
+
+procedure TAbrirCaixa.SetTurno(const Value: TTurno);
+begin
+  FTurno := Value;
+end;
+
+{ TTurnoHelper }
+
+function TTurnoHelper.RetornaTurno(aValue: TDateTime): TTurno;
+begin
+  Result := Madrugada;
+
+  if (HourOf(aValue) >= 6) and (HourOf(aValue) < 12) then
+    Result := Manha;
+
+  if (HourOf(aValue) >= 12) and (HourOf(aValue) < 18) then
+    Result := Tarde;
+
+  if (HourOf(aValue) >= 18) and (HourOf(aValue) < 24) then
+    Result := Noite;
+end;
+
+function TTurnoHelper.TEnum(aValue: String): TTurno;
+begin
+  Result := TTurno(GetEnumValue(TypeInfo(TTurno), aValue));
+end;
+
+function TTurnoHelper.ToString: String;
+begin
+  Result := GetEnumName(TypeInfo(TTurno), Integer(Self));
+end;
+
+end.

@@ -1,0 +1,182 @@
+unit ACPDV.DataModule.DAO.Adquirente;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.Adquirente,
+  ACPDV.DataModule.ConexaoBD;
+
+type
+  TDAOAdquirente = class(TInterfacedObject, iDAO<TAdquirente>)
+    private
+      FAdquirente: TAdquirente;
+      FAdquirentes: TObjectList<TAdquirente>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TAdquirente>;
+      function Listar: iDAO<TAdquirente>;
+      function ListarPorID(aID: Variant): iDAO<TAdquirente>;
+      function Excluir(aID: Variant): iDAO<TAdquirente>; overload;
+      function Excluir: iDAO<TAdquirente>; overload;
+      function Atualizar: iDAO<TAdquirente>;
+      function Inserir: iDAO<TAdquirente>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TAdquirente>;
+      function This: TAdquirente;
+      function These: TObjectList<TAdquirente>;
+  end;
+
+implementation
+
+{ TDAOAdquirente }
+
+function TDAOAdquirente.Atualizar: iDAO<TAdquirente>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE ADQUIRENTE                                                                    '+
+    'SET ID_POS = :IDPOS, DESCRICAO = :DESCRICAO, CNPJ = :CNPJ, MERCHANTID = :MERCHANTID, '+
+    'CHAVE_REQUISICAO = :CHAVEREQUISICAO                                                  '+
+    'WHERE ID = :ID                                                                       '
+  )
+  .Params('IDPOS', FAdquirente.IDPos)
+  .Params('DESCRICAO', FAdquirente.Descricao)
+  .Params('CNPJ', FAdquirente.CNPJ)
+  .Params('MERCHANTID', FAdquirente.MerchantID)
+  .Params('CHAVEREQUISICAO', FAdquirente.ChaveRequisicao)
+  .Params('ID', FAdquirente.ID)
+  .ExecSQL;
+end;
+
+constructor TDAOAdquirente.Create;
+begin
+  FAdquirente := TAdquirente.New;
+  FAdquirentes := TObjectList<TAdquirente>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOAdquirente.DataSource(var aDataSource: TDataSource): iDAO<TAdquirente>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOAdquirente.Destroy;
+begin
+  FreeAndNil(FAdquirente);
+  FAdquirentes.Free;
+  FConexaoDB.Free;
+  inherited;
+end;
+
+function TDAOAdquirente.Excluir: iDAO<TAdquirente>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM ADQUIRENTE '+
+    'WHERE ID = :ID         '
+  )
+  .Params('ID', FAdquirente.ID)
+  .ExecSQL;
+end;
+
+function TDAOAdquirente.Excluir(aID: Variant): iDAO<TAdquirente>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM ADQUIRENTE '+
+    'WHERE ID = :ID         '
+  )
+  .Params('ID', aID)
+  .ExecSQL;
+end;
+
+function TDAOAdquirente.Inserir: iDAO<TAdquirente>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL(
+    'INSERT INTO ADQUIRENTE                                     '+
+    '(ID_POS, DESCRICAO, CNPJ, MERCHANTID, CHAVE_REQUISICAO)    '+
+    'VALUES                                                     '+
+    '(:IDPOS, :DESCRICAO, :CNPJ, :MERCHANTID, :CHAVEREQUISICAO) '
+  )
+  .Params('IDPOS', FAdquirente.IDPos)
+  .Params('DESCRICAO', FAdquirente.Descricao)
+  .Params('CNPJ', FAdquirente.CNPJ)
+  .Params('MERCHANTID', FAdquirente.MerchantID)
+  .Params('CHAVEREQUISICAO', FAdquirente.ChaveRequisicao)
+  .ExecSQL
+  .SQL('SELECT * FROM ADQUIRENTE WHERE ID = (SELECT MAX(ID) FROM ADQUIRENTE) ')
+  .Open
+  .DataSet;
+
+  FAdquirente.ID := FDataSet.FieldByName('ID').AsInteger;
+end;
+
+function TDAOAdquirente.Listar: iDAO<TAdquirente>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM ADQUIRENTE ')
+  .Open
+  .DataSet;
+
+  FDataSet.First;
+  while not FDataSet.Eof do
+  begin
+    FAdquirente.New;
+    FAdquirente.ID := FDataSet.FieldByName('ID').AsInteger;
+    FAdquirente.IDPos := FDataSet.FieldByName('IDPOS').AsInteger;
+    FAdquirente.Descricao := FDataSet.FieldByName('DESCRICAO').AsString;
+    FAdquirente.CNPJ := FDataSet.FieldByName('CNPJ').AsString;
+    FAdquirente.MerchantID := FDataSet.FieldByName('MERCHANTID').AsString;
+    FAdquirente.ChaveRequisicao := FDataSet.FieldByName('CHAVEREQUISICAO').AsString;
+
+    FAdquirentes.Add(FAdquirente);
+
+    FDataSet.Next;
+  end;
+end;
+
+function TDAOAdquirente.ListarPorID(aID: Variant): iDAO<TAdquirente>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM ADQUIRENTE WHERE ID = :ID')
+  .Params('ID', aID)
+  .Open
+  .DataSet;
+
+  FAdquirente.New;
+  FAdquirente.ID := FDataSet.FieldByName('ID').AsInteger;
+  FAdquirente.IDPos := FDataSet.FieldByName('IDPOS').AsInteger;
+  FAdquirente.Descricao := FDataSet.FieldByName('DESCRICAO').AsString;
+  FAdquirente.CNPJ := FDataSet.FieldByName('CNPJ').AsString;
+  FAdquirente.MerchantID := FDataSet.FieldByName('MERCHANTID').AsString;
+  FAdquirente.ChaveRequisicao := FDataSet.FieldByName('CHAVEREQUISICAO').AsString;
+end;
+
+class function TDAOAdquirente.New: iDAO<TAdquirente>;
+begin
+  Result := Self.Create;
+end;
+
+function TDAOAdquirente.These: TObjectList<TAdquirente>;
+begin
+  Result := FAdquirentes;
+end;
+
+function TDAOAdquirente.This: TAdquirente;
+begin
+  Result := FAdquirente;
+end;
+
+end.
+

@@ -1,0 +1,86 @@
+unit ACPDV.Objeto.IBPT;
+
+interface
+
+type
+  TIBPT = class
+    private
+      FAliqMunicipal: Extended;
+      FCEST: String;
+      FID: String;
+      FAliqEstadual: Extended;
+      FAliqImportado: Extended;
+      FAliqNacional: Extended;
+      FEXTIPI: String;
+      FTipo: Integer;
+      procedure SetAliqEstadual(const Value: Extended);
+      procedure SetAliqImportado(const Value: Extended);
+      procedure SetAliqMunicipal(const Value: Extended);
+      procedure SetAliqNacional(const Value: Extended);
+      procedure SetCEST(const Value: String);
+      procedure SetEXTIPI(const Value: String);
+      procedure SetID(const Value: String);
+      procedure SetTipo(const Value: Integer);
+
+    public
+      class function New: TIBPT;
+      property ID: String read FID write SetID;
+      property EXTIPI: String read FEXTIPI write SetEXTIPI;
+      property Tipo: Integer read FTipo write SetTipo;
+      property AliqNacional: Extended read FAliqNacional write SetAliqNacional;
+      property AliqImportado: Extended read FAliqImportado write SetAliqImportado;
+      property AliqEstadual: Extended read FAliqEstadual write SetAliqEstadual;
+      property AliqMunicipal: Extended read FAliqMunicipal write SetAliqMunicipal;
+      property CEST: String read FCEST write SetCEST;
+  end;
+
+implementation
+
+{ TIBPT }
+
+class function TIBPT.New: TIBPT;
+begin
+  Result := Self.Create;
+end;
+
+procedure TIBPT.SetAliqEstadual(const Value: Extended);
+begin
+  FAliqEstadual := Value;
+end;
+
+procedure TIBPT.SetAliqImportado(const Value: Extended);
+begin
+  FAliqImportado := Value;
+end;
+
+procedure TIBPT.SetAliqMunicipal(const Value: Extended);
+begin
+  FAliqMunicipal := Value;
+end;
+
+procedure TIBPT.SetAliqNacional(const Value: Extended);
+begin
+  FAliqNacional := Value;
+end;
+
+procedure TIBPT.SetCEST(const Value: String);
+begin
+  FCEST := Value;
+end;
+
+procedure TIBPT.SetEXTIPI(const Value: String);
+begin
+  FEXTIPI := Value;
+end;
+
+procedure TIBPT.SetID(const Value: String);
+begin
+  FID := Value;
+end;
+
+procedure TIBPT.SetTipo(const Value: Integer);
+begin
+  FTipo := Value;
+end;
+
+end.

@@ -1,0 +1,459 @@
+unit ACPDV.View.Principal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.Imaging.pngimage,
+  ACPDV.View.Login, Vcl.WinXCtrls,
+  ACPDV.Objeto.FecharCaixa, ACPDV.View.AbrirCaixa, ACPDV.View.FecharCaixa,
+  ACPDV.View.IdentificarCliente, ACPDV.View.ImportarCliente,
+  ACPDV.View.Pagamentos, ACPDV.Utils.Utilitarios, ACPDV.DataModule.ConexaoBD, Vcl.AppEvnts, ACPDV.DataModule.Configuracao,
+  ACPDV.View.CentralMensagens, ACPDV.View.Componente.ItemListaProduto,
+  System.Generics.Collections, ACPDV.Controller;
+
+type
+  TfrmPrincipal = class(TForm)
+    pnlContainer: TPanel;
+    pnlTitulo: TPanel;
+    pnlBotoes: TPanel;
+    pnlPrincipal: TPanel;
+    pnlOperacoes: TPanel;
+    pnlGrid: TPanel;
+    pnlCancelarOperacao: TPanel;
+    Shape3: TShape;
+    pnlConsultarPreco: TPanel;
+    Shape1: TShape;
+    btnConsultarPreco: TSpeedButton;
+    pnlAbrirCaixa: TPanel;
+    Shape2: TShape;
+    btnAbrirCaixa: TSpeedButton;
+    pnlCancelarVenda: TPanel;
+    Shape4: TShape;
+    btnCancelarVenda: TSpeedButton;
+    pnlCancelarItem: TPanel;
+    Shape5: TShape;
+    btnCancelarItem: TSpeedButton;
+    btnCancelarOperacao: TSpeedButton;
+    pnlMaisFuncoes: TPanel;
+    Shape6: TShape;
+    btnMaisFuncoes: TSpeedButton;
+    pnlTotalCompra: TPanel;
+    Shape8: TShape;
+    pnlEdtTotalCompra: TPanel;
+    Label1: TLabel;
+    lblTotalCompra: TLabel;
+    pnlSubTotal: TPanel;
+    Label2: TLabel;
+    pnlEdtSubTotal: TPanel;
+    Shape9: TShape;
+    lblSubTotal: TLabel;
+    pnlQuantidade: TPanel;
+    Label3: TLabel;
+    pnlEdtQuantidade: TPanel;
+    Shape10: TShape;
+    edtQuantidade: TEdit;
+    pnlPreco: TPanel;
+    Label4: TLabel;
+    pnlEdtPreco: TPanel;
+    Shape11: TShape;
+    lblPreco: TLabel;
+    pnlProduto: TPanel;
+    Label5: TLabel;
+    pnlEdtProduto: TPanel;
+    Shape12: TShape;
+    edtProduto: TEdit;
+    pnlImgProduto: TPanel;
+    imgProduto: TImage;
+    pnlMaster: TPanel;
+    splitMaisFuncoes: TSplitView;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Shape7: TShape;
+    Panel3: TPanel;
+    Shape13: TShape;
+    Panel4: TPanel;
+    Shape14: TShape;
+    Panel5: TPanel;
+    Shape15: TShape;
+    Panel6: TPanel;
+    Shape16: TShape;
+    Panel7: TPanel;
+    Shape17: TShape;
+    splitConfig: TSplitView;
+    pnlConfContainer: TPanel;
+    Panel8: TPanel;
+    Shape18: TShape;
+    pnlIdentificaCliente: TPanel;
+    pnlTituloProdutos: TPanel;
+    pnlTituloItem: TPanel;
+    pnlTituloCodigo: TPanel;
+    pnlTituloSubTotal: TPanel;
+    pnlTituloQuantidade: TPanel;
+    pnlTituloValorUnitario: TPanel;
+    pnlTituloDescricao: TPanel;
+    pnlListaItens: TPanel;
+    Shape19: TShape;
+    lbProdutos: TListBox;
+    pnlDataBase: TPanel;
+    Label6: TLabel;
+    Panel10: TPanel;
+    Shape20: TShape;
+    edtDataBase: TEdit;
+    pnlUserName: TPanel;
+    Label7: TLabel;
+    Panel11: TPanel;
+    Shape21: TShape;
+    edtUserName: TEdit;
+    pnlPassword: TPanel;
+    Label8: TLabel;
+    Panel12: TPanel;
+    Shape22: TShape;
+    edtPassword: TEdit;
+    pnlDriveID: TPanel;
+    Label9: TLabel;
+    Panel13: TPanel;
+    Shape23: TShape;
+    edtDriveID: TEdit;
+    Panel9: TPanel;
+    Shape24: TShape;
+    btnCadastrarConfiguracaoBD: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnMaisFuncoesClick(Sender: TObject);
+    procedure edtProdutoKeyPress(Sender: TObject; var Key: Char);
+    procedure edtQuantidadeKeyPress(Sender: TObject; var Key: Char);
+    procedure btnCadastrarConfiguracaoBDClick(Sender: TObject);
+  private
+    FLogin: TfrmLogin;
+    FUtilitarios: TUtilitarios;
+    FDados: TdmDados;
+    FIndex: Integer;
+    FTotal: Currency;
+    FController: TController;
+    FCaixa: TDictionary<string, string>;
+
+    procedure MontarBotoes;
+    procedure SplitViewAction(Value: TSplitView);
+    procedure AjustarCampos;
+    procedure VerificaCaixaFechadoAberto;
+    procedure InformacoesDoOperador;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+uses
+  ACPDV.View.LoginSupervisor,
+  System.SysUtils;
+
+{$R *.dfm}
+
+procedure TfrmPrincipal.AjustarCampos;
+begin
+  edtProduto.Text := '';
+  lblPreco.Caption := FormatCurr('"R$ ",0.00', 0);
+  edtQuantidade.Text := FormatFloat(',0.000', 0);
+  lblSubTotal.Caption := FormatCurr('"R$ ",0.00', 0);
+  lblTotalCompra.Caption := FormatCurr('"R$ ",0.00', 0);
+//  dmDados
+  pnlTitulo.SetFocus;
+end;
+
+procedure TfrmPrincipal.btnCadastrarConfiguracaoBDClick(Sender: TObject);
+var xConfig: TConfiguracao;
+begin
+  xConfig := TConfiguracao.New(ExtractFilePath(ParamStr(0)));
+  try
+    xConfig.SetDataBase(edtDataBase.Text)
+           .SetUserName(edtUserName.Text)
+           .SetPassword(edtPassword.Text)
+           .SetDriveID(edtDriveID.Text)
+           .Build;
+    TfrmCentralMensagens.New(Self)
+      .Mensagem('Banco de dados configurado com sucesso!', Alerta)
+      .Embed(pnlMaster);
+    SplitViewAction(splitConfig);
+  finally
+    xConfig.Free
+  end;
+  TdmDados.Create(Application);
+end;
+
+procedure TfrmPrincipal.btnMaisFuncoesClick(Sender: TObject);
+begin
+  SplitViewAction(splitMaisFuncoes);
+end;
+
+procedure TfrmPrincipal.edtProdutoKeyPress(Sender: TObject; var Key: Char);
+begin
+//  if not FAbrirCaixa.Aberto then
+//  begin
+//    Key := #0;
+//    edtProduto.Clear;
+//    edtProduto.SetFocus;
+//    TfrmCentralMensagens.New(Self).Mensagem('O Caixa deve estar aberto para fazer esta ação!' + #13#10 + 'Deseja abrir o Caixa?', Informacao)
+//      .Embed(pnlMaster)
+//      .ClikConfirmar(
+//      procedure(aSender: TObject)
+//      begin
+//        keybd_event(VK_F2, 0, 0, 0);
+//      end);
+//
+//    Exit;
+//  end;
+
+  case Key of
+    '.', ',':
+      begin
+        Key := ',';
+        if Pos(',', edtProduto.Text) > 0 then
+          Key := #0;
+      end;
+    '*':
+      begin
+        if Pos('*', edtProduto.Text) > 0 then
+          Key := #0;
+      end;
+    '/':
+      begin
+        Application.MessageBox('Nenhuma Balança Configurada!', 'Informação!', MB_ICONINFORMATION + MB_OK);
+      end;
+    #13:
+      begin
+        if Trim(edtProduto.Text) <> '' then
+        begin
+//          dmDados.mProdutos.Filtered := False;
+//          dmDados.mProdutos.Filter := 'Codigo = ' + edtProduto.Text;
+//          dmDados.mProdutos.Filtered := True;
+//          dmDados.mProdutos.Open;
+//
+//          if dmDados.mProdutos.IsEmpty then
+//          begin
+//            TfrmCentralMensagens.New(Self).Mensagem('Nenhum Produto Encontrado!', Erro).Embed(pnlMaster);
+//            Key := #0;
+//            edtProduto.Clear;
+//            edtProduto.SetFocus;
+//            Exit;
+//          end;
+//
+//          Inc(FIndex);
+
+          if edtQuantidade.Text = '0,000' then
+            edtQuantidade.Clear;
+
+          TframeComponenteListaItem.New(Self)
+            .Embed(lbProdutos)
+            .Alinhamento(alTop)
+            .NomeFrame('frame' + IntToStr(FIndex)).Item(FIndex)
+            .Codigo('')   //MEXER AQUI
+            .Descricao('')  //MEXER AQUI
+            .Quantidade(StrToFloatDef(edtQuantidade.Text, 1))
+            .ValorUnitario(0)  //MEXER AQUI
+            .Build;
+
+          edtQuantidade.Text := FormatFloat(',0.000', StrToFloatDef(edtQuantidade.Text, 1));
+          lblPreco.Caption := FormatCurr('"R$ ",0.00', 0); //MEXER AQUI
+          lblSubTotal.Caption := FormatCurr('"R$ ",0.00', StrToFloatDef(edtQuantidade.Text, 1) * 0); //MEXER AQUI
+
+          FTotal := FTotal + (StrToFloatDef(edtQuantidade.Text, 1) * 0); //MEXER AQUI
+          lblTotalCompra.Caption := FormatCurr('"R$ ",0.00', FTotal);
+
+          edtProduto.Clear;
+          edtProduto.SetFocus;
+        end;
+      end;
+  end;
+end;
+
+procedure TfrmPrincipal.edtQuantidadeKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    edtProduto.SetFocus;
+end;
+
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FLogin.Free;
+  if Assigned(FUtilitarios) then
+    FUtilitarios.Free;
+  if Assigned(FDados) then
+    FDados.Free;
+end;
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+  MontarBotoes;
+end;
+
+procedure TfrmPrincipal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  xKeyEvent: TKeyEvent;
+  I: Integer;
+begin
+  for I := Pred(pnlMaster.ControlCount) downto 0 do
+  begin
+    if (pnlMaster.Controls[I] is TForm) and (TForm(pnlMaster.Controls[I]).ModalResult = mrOk) then
+    begin
+
+      if TForm(pnlMaster.Controls[I]).KeyPreview then
+        xKeyEvent := TForm(pnlMaster.Controls[I]).OnKeyDown;
+
+      if Assigned(xKeyEvent) then
+        xKeyEvent(Sender, Key, Shift);
+
+      Exit;
+    end;
+  end;
+
+  if ((Shift = [ssCtrl]) and (Key = VK_MULTIPLY)) then
+  begin
+    edtQuantidade.Clear;
+    edtQuantidade.SetFocus;
+  end;
+
+  if (Shift = [ssCtrl]) and (Key = VK_F1) then
+  begin
+      SplitViewAction(splitConfig);
+      edtDataBase.SetFocus;
+      Exit
+  end;
+
+
+  case Key of
+    VK_ESCAPE:
+      Close;
+    VK_F1:
+      TfrmImportarCliente.New(Self).Embed(pnlMaster);
+    VK_F2:
+      begin
+        TfrmAbrirCaixa
+        .New(Self)
+        .Embed(pnlMaster)
+//          .Informacoes(
+//            procedure(aValue: TAbrirCaixa)
+//            begin
+//              FAbrirCaixa.ID := aValue.ID;
+//              FAbrirCaixa.Caixa := aValue.Caixa;
+//              FAbrirCaixa.Turno := aValue.Turno;
+//              FAbrirCaixa.Aberto := aValue.Aberto;
+//              FAbrirCaixa.DataHoraAbertura := aValue.DataHoraAbertura;
+//              FAbrirCaixa.SaldoInicial := aValue.SaldoInicial;
+//
+//              VerificaCaixaFechadoAberto;
+//            end)
+        .Show;
+      end;
+    VK_F4:
+      begin
+        TfrmFecharCaixa.New(Self)
+        .Embed(pnlMaster)
+//        .Informacoes(
+//          procedure(aValue: TAbrirCaixa)
+//          begin
+//            FAbrirCaixa.Aberto := aValue.Aberto;
+//            FAbrirCaixa.DataHoraFechamento := aValue.DataHoraFechamento;
+//            VerificaCaixaFechadoAberto;
+//          end)
+          .Show;
+      end;
+    VK_F5:
+      ShowMessage('CANCELAR ITEM');
+    VK_F6:
+      ShowMessage('CANCELAR VENDA');
+    VK_F7:
+      begin
+        TfrmPagamentos.New(Self).Embed(pnlMaster);
+      end;
+    VK_F9:
+      TfrmIdentificarCliente.New(Self).IdentificarCPF.Embed(pnlMaster).IdentificarCliente(
+        procedure(aCPF, aCliente: string)
+        begin
+          if not aCliente.IsEmpty then
+            aCliente := 'Cliente: ' + aCliente;
+          if not aCPF.IsEmpty then
+            aCPF := 'CPF: ' + aCPF;
+
+          if ((not aCliente.IsEmpty) or (not aCPF.IsEmpty)) then
+          begin
+            pnlIdentificaCliente.Visible := True;
+            pnlIdentificaCliente.Caption := aCliente + ' ' + aCPF;
+          end;
+        end);
+    VK_F10:
+      ShowMessage('CANCELAR OPERAÇÃO');
+    VK_F11:
+      begin
+        TfrmLoginSupervisor.New(Self).Embed(pnlMaster);
+      end;
+    VK_F12:
+      SplitViewAction(splitMaisFuncoes);
+  end;
+end;
+
+procedure TfrmPrincipal.FormShow(Sender: TObject);
+begin
+  FIndex := 0;
+
+  TfrmLogin
+  .New(Self)
+  .Embed(pnlMaster)
+  .Informacao(
+    procedure(aValue: string)
+    begin
+
+      VerificaCaixaFechadoAberto;
+    end)
+    .Show;
+end;
+
+procedure TfrmPrincipal.InformacoesDoOperador;
+//var
+//  xCaption, xOperador: string;
+begin
+//  xOperador := 'Caixa ' + FAbrirCaixa.Caixa.ToString + ' | Operador: ' + FAbrirCaixa.Operador + ' | Turno: ' + FAbrirCaixa.Turno.ToString;
+
+//  xCaption := StringOfChar(' ', (255 - (Length(Self.Caption) + Length(xOperador))));
+//  Self.Caption := Self.Caption + xCaption + xOperador;
+end;
+
+procedure TfrmPrincipal.MontarBotoes;
+begin
+  btnCancelarOperacao.Caption := 'Cancelar Operação ' + ''#13'' + ' (F10)';
+  btnConsultarPreco.Caption := 'Fechar Caixa' + ''#13'' + ' (F4)';
+  btnAbrirCaixa.Caption := 'Abrir Caixa ' + ''#13'' + ' (F2)';
+  btnCancelarVenda.Caption := 'Cancelar Venda ' + ''#13'' + ' (F6)';
+  btnCancelarItem.Caption := 'Cancelar Item ' + ''#13'' + ' (F5)';
+  btnMaisFuncoes.Caption := 'Mais Funções ' + ''#13'' + ' (F12)';
+end;
+
+procedure TfrmPrincipal.SplitViewAction(Value: TSplitView);
+begin
+  Value.Opened := not Value.Opened;
+end;
+
+procedure TfrmPrincipal.VerificaCaixaFechadoAberto;
+begin
+
+  pnlTitulo.Caption := 'Caixa Fechado';
+  pnlTitulo.Color := clMaroon;
+  AjustarCampos;
+  Exit;
+
+
+  pnlTitulo.Caption := 'Caixa Aberto';
+  pnlTitulo.Color := $006CA226;
+  InformacoesDoOperador;
+  AjustarCampos;
+end;
+
+end.
+

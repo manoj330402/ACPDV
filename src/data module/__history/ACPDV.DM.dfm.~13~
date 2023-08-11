@@ -1,0 +1,16 @@
+object dmDados: TdmDados
+  Height = 112
+  Width = 180
+  object connBD: TFDConnection
+    Params.Strings = (
+      'LockingMode=Normal'
+      'DriverID=SQLite')
+    Left = 32
+    Top = 24
+  end
+  object FDQuery1: TFDQuery
+    Connection = connBD
+    Left = 96
+    Top = 24
+  end
+end

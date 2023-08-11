@@ -1,0 +1,118 @@
+unit ACPDV.DataModule.DAO.CartaoBandeira;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CartaoBandeira,
+  ACPDV.DataModule.ConexaoBD;
+
+type
+  TDAOAdquirente = class(TInterfacedObject, iDAO<TCartaoBandeira>)
+  private
+    FCartaoBandeira: TCartaoBandeira;
+    FCartaoBandeiras: TObjectList<TCartaoBandeira>;
+    FConexaoDB: TdmDados;
+    FDataSet: TDataSet;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    class function New: iDAO<TCartaoBandeira>;
+    function Listar: iDAO<TCartaoBandeira>;
+    function ListarPorID(aID: Variant): iDAO<TCartaoBandeira>;
+    function Excluir(aID: Variant): iDAO<TCartaoBandeira>; overload;
+    function Excluir: iDAO<TCartaoBandeira>; overload;
+    function Atualizar: iDAO<TCartaoBandeira>;
+    function Inserir: iDAO<TCartaoBandeira>;
+    function DataSource(var aDataSource: TDataSource): iDAO<TCartaoBandeira>;
+    function This: TCartaoBandeira;
+    function These: TObjectList<TCartaoBandeira>;
+  end;
+
+implementation
+
+{ TDAOAdquirente }
+
+function TDAOAdquirente.Atualizar: iDAO<TCartaoBandeira>;
+begin
+
+end;
+
+constructor TDAOAdquirente.Create;
+begin
+  FCartaoBandeira := TCartaoBandeira.New;
+  FCartaoBandeiras := TObjectList<TCartaoBandeira>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOAdquirente.DataSource(
+  var aDataSource: TDataSource): iDAO<TCartaoBandeira>;
+begin
+
+end;
+
+destructor TDAOAdquirente.Destroy;
+begin
+  FCartaoBandeira.Free;
+  FCartaoBandeiras.Free;
+  FConexaoDB.Free;
+  inherited;
+end;
+
+function TDAOAdquirente.Excluir: iDAO<TCartaoBandeira>;
+begin
+
+end;
+
+function TDAOAdquirente.Excluir(aID: Variant): iDAO<TCartaoBandeira>;
+begin
+
+end;
+
+function TDAOAdquirente.Inserir: iDAO<TCartaoBandeira>;
+begin
+
+end;
+
+function TDAOAdquirente.Listar: iDAO<TCartaoBandeira>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CARTAO_BANDEIRA ')
+  .Open
+  .DataSet;
+
+  FDataSet.First;
+  while not FDataSet.Eof do
+  begin
+    FCartaoBandeira.New;
+    FCartaoBandeira.ID := FDataSet.FieldByName('ID').AsInteger;
+    FCartaoBandeira.Descricao := FDataSet.FieldByName('DESCRICAO').AsString;
+
+    FCartaoBandeiras.Add(FCartaoBandeira);
+
+    FDataSet.Next;
+  end;
+end;
+
+function TDAOAdquirente.ListarPorID(aID: Variant): iDAO<TCartaoBandeira>;
+begin
+
+end;
+
+class function TDAOAdquirente.New: iDAO<TCartaoBandeira>;
+begin
+  Result := Self.Create;
+end;
+
+function TDAOAdquirente.These: TObjectList<TCartaoBandeira>;
+begin
+
+end;
+
+function TDAOAdquirente.This: TCartaoBandeira;
+begin
+
+end;
+
+end.

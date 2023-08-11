@@ -1,0 +1,116 @@
+unit ACPDV.DataModule.DAO.FormaPagamento;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.FormaPagamento,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOFormaPagamento = class(TInterfacedObject, iDAO<TFormaPagamento>)
+    private
+      FFormaPagamento: TFormaPagamento;
+      FFormaPagamentos: TObjectList<TFormaPagamento>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TFormaPagamento>;
+      function Listar: iDAO<TFormaPagamento>;
+      function ListarPorID(aID: Variant): iDAO<TFormaPagamento>;
+      function Excluir(aID: Variant): iDAO<TFormaPagamento>; overload;
+      function Excluir: iDAO<TFormaPagamento>; overload;
+      function Atualizar: iDAO<TFormaPagamento>;
+      function Inserir: iDAO<TFormaPagamento>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TFormaPagamento>;
+      function This: TFormaPagamento;
+      function These: TObjectList<TFormaPagamento>;
+  end;
+
+implementation
+
+{ TDAOFormaPagamento }
+
+function TDAOFormaPagamento.Atualizar: iDAO<TFormaPagamento>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE FORMA_PAGAMENTO												                         '+
+    'SET ATIVO = :ATIVO, TIPO = :TIPO, TEF = :TEF, DESCRICAO = :DESCRICAO, '+
+    'ID_NFE = :ID_NFE, ID_SAT = :ID_SAT, POS = :POS						             '+
+    'WHERE ID = :ID														                             '
+  )
+  .Params('ID', FFormaPagamento.ID)
+  .Params('ATIVO', FFormaPagamento.Ativo)
+  .Params('TIPO', FFormaPagamento.Tipo)
+  .Params('TEF', FFormaPagamento.TEF)
+  .Params('DESCRICAO', FFormaPagamento.Descricao)
+  .Params('ID_NFE', FFormaPagamento.IDNFE)
+  .Params('ID_SAT', FFormaPagamento.IDSAT)
+  .Params('POS', FFormaPagamento.POS)
+  .ExecSQL;
+end;
+
+constructor TDAOFormaPagamento.Create;
+begin
+  FFormaPagamento := TFormaPagamento.New;
+  FFormaPagamentos := TObjectList<TFormaPagamento>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOFormaPagamento.DataSource(var aDataSource: TDataSource): iDAO<TFormaPagamento>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOFormaPagamento.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDAOFormaPagamento.Excluir: iDAO<TFormaPagamento>;
+begin
+
+end;
+
+function TDAOFormaPagamento.Excluir(aID: Variant): iDAO<TFormaPagamento>;
+begin
+
+end;
+
+function TDAOFormaPagamento.Inserir: iDAO<TFormaPagamento>;
+begin
+
+end;
+
+function TDAOFormaPagamento.Listar: iDAO<TFormaPagamento>;
+begin
+
+end;
+
+function TDAOFormaPagamento.ListarPorID(aID: Variant): iDAO<TFormaPagamento>;
+begin
+
+end;
+
+class function TDAOFormaPagamento.New: iDAO<TFormaPagamento>;
+begin
+
+end;
+
+function TDAOFormaPagamento.These: TObjectList<TFormaPagamento>;
+begin
+
+end;
+
+function TDAOFormaPagamento.This: TFormaPagamento;
+begin
+
+end;
+
+end.

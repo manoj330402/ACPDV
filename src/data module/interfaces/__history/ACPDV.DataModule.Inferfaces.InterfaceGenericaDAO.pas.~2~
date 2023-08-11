@@ -1,0 +1,24 @@
+unit ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO;
+
+interface
+
+uses
+  Data.DB, System.Generics.Collections;
+
+type
+  iDAO<T: class> = interface
+    function Listar: iDAO<T>;
+    function ListarPorID(aID: Variant): iDAO<T>;
+    function Excluir(aID: Variant): iDAO<T>; overload;
+    function Excluir: iDAO<T>; overload;
+    function Atualizar: iDAO<T>;
+    function Inserir: iDAO<T>;
+    function DataSource(aDataSource: TDataSource): iDAO<T>;
+    function This: T;
+    function These: TObjectList<T>;
+  end;
+
+implementation
+
+end.
+

@@ -1,0 +1,46 @@
+unit ACPDV.Objeto.CEST;
+
+interface
+
+type
+  TCESP = class
+    private
+      FDescricao: String;
+      FID: String;
+      FNCM: String;
+      procedure SetDescricao(const Value: String);
+      procedure SetID(const Value: String);
+      procedure SetNCM(const Value: String);
+
+    public
+      class function New: TCESP;
+      property ID: String read FID write SetID;
+      property NCM: String read FNCM write SetNCM;
+      property Descricao: String read FDescricao write SetDescricao;
+  end;
+
+implementation
+
+{ TCESP }
+
+class function TCESP.New: TCESP;
+begin
+  Result := Self.Create;
+end;
+
+procedure TCESP.SetDescricao(const Value: String);
+begin
+  FDescricao := Value;
+end;
+
+procedure TCESP.SetID(const Value: String);
+begin
+  FID := Value;
+end;
+
+procedure TCESP.SetNCM(const Value: String);
+begin
+  FNCM := Value;
+end;
+
+end.

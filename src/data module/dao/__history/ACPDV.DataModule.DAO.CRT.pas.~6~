@@ -1,0 +1,116 @@
+unit ACPDV.DataModule.DAO.CRT;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CRT,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOCodigoANP = class(TInterfacedObject, iDAO<TCRT>)
+    private
+      FCRT: TCRT;
+      FCRTs: TObjectList<TCRT>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCRT>;
+      function Listar: iDAO<TCRT>;
+      function ListarPorID(aID: Variant): iDAO<TCRT>;
+      function Excluir(aID: Variant): iDAO<TCRT>; overload;
+      function Excluir: iDAO<TCRT>; overload;
+      function Atualizar: iDAO<TCRT>;
+      function Inserir: iDAO<TCRT>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCRT>;
+      function This: TCRT;
+      function These: TObjectList<TCRT>;
+  end;
+
+implementation
+
+{ TDAOCodigoANP }
+
+function TDAOCodigoANP.Atualizar: iDAO<TCRT>;
+begin
+  FConexaoDB.SQL(
+    'UPDATE CRT                 '+
+    'SET DESCRICAO = :DESCRICAO '+
+    'WHERE ID = :ID             '
+  )
+  .Params('DESCRICAO', FCRT.Descricao)
+  .Params('ID', FCRT.ID)
+  .ExecSQL;
+end;
+
+constructor TDAOCodigoANP.Create;
+begin
+  FCRT := TCRT.New;
+  FCRTs := TObjectList<TCRT>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOCodigoANP.DataSource(var aDataSource: TDataSource): iDAO<TCRT>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOCodigoANP.Destroy;
+begin
+  FreeAndNil(FCRT);
+  FreeAndNil(FCRTs);
+  FreeAndNil(FConexaoDB);
+  inherited;
+end;
+
+function TDAOCodigoANP.Excluir: iDAO<TCRT>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM CRT '+
+    'WHERE ID = :ID  '
+  )
+  .Params('ID', FCRT.ID)
+  .ExecSQL;
+end;
+
+function TDAOCodigoANP.Excluir(aID: Variant): iDAO<TCRT>;
+begin
+
+end;
+
+function TDAOCodigoANP.Inserir: iDAO<TCRT>;
+begin
+
+end;
+
+function TDAOCodigoANP.Listar: iDAO<TCRT>;
+begin
+
+end;
+
+function TDAOCodigoANP.ListarPorID(aID: Variant): iDAO<TCRT>;
+begin
+
+end;
+
+class function TDAOCodigoANP.New: iDAO<TCRT>;
+begin
+
+end;
+
+function TDAOCodigoANP.These: TObjectList<TCRT>;
+begin
+
+end;
+
+function TDAOCodigoANP.This: TCRT;
+begin
+
+end;
+
+end.

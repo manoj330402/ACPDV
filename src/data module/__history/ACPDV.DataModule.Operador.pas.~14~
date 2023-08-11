@@ -1,0 +1,72 @@
+unit ACPDV.DataModule.Operador;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, ACPDV.DataModule.DAO.Operador,
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, System.Generics.Collections;
+
+type
+  TdmOperador = class(TDataModule)
+    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleDestroy(Sender: TObject);
+  private
+    FLista: TDictionary<string, string>;
+  public
+    class function New: TdmOperador;
+    function ValidarOperador(aUsuario, aSenha: string): Boolean;
+    function NumeroCaixaTurno(aValue: string): TDictionary<string, string>;
+  end;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmOperador }
+
+procedure TdmOperador.DataModuleCreate(Sender: TObject);
+begin
+  FLista := TDictionary<string, string>.Create;
+end;
+
+procedure TdmOperador.DataModuleDestroy(Sender: TObject);
+begin
+  FreeAndNil(FLista);
+end;
+
+class function TdmOperador.New: TdmOperador;
+begin
+  Result := Self.Create(nil);
+end;
+
+function TdmOperador.NumeroCaixaTurno(aValue: string): TDictionary<string, string>;
+begin
+  Result := TDictionary<string, string>.Create;
+end;
+
+function TdmOperador.ValidarOperador(aUsuario, aSenha: string): Boolean;
+var xDataSet: TDataSet;
+    xDAOOperador: TDAOOperador;
+    xFieldNome, xFieldSenha: TField;
+begin
+  Result := False;
+
+  xDAOOperador := TDAOOperador.Create;
+  xDataSet := xDAOOperador.Listar.DataSet;
+
+  xFieldNome := xDataSet.FindField('NOME');
+  xFieldSenha := xDataSet.FindField('SENHA');
+
+  if xFieldNome.AsString.Equals(UpperCase(aUsuario)) and xFieldSenha.AsString.Equals(aSenha) then
+  begin
+    FLista.Add('IDOperador', xDataSet.FieldByName('ID').AsString);
+    FLista.Add('NomeOperador', xDataSet.FieldByName('NOME').AsString);
+    FLista.Add('SenhaOperador', xDataSet.FieldByName('SENHA').AsString);
+
+    Result := True;
+  end;
+end;
+
+end.

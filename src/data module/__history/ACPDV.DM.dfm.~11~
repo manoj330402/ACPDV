@@ -1,0 +1,4 @@
+object dmDados: TdmDados
+  Height = 262
+  Width = 363
+end

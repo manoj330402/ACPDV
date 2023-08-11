@@ -1,0 +1,38 @@
+unit ACPDV.Objeto.CSTCOFINS;
+
+interface
+
+type
+  TCSTCOFINS = class
+    private
+    FDescricao: String;
+    FID: Integer;
+    procedure SetDescricao(const Value: String);
+    procedure SetID(const Value: Integer);
+
+    public
+      class function New: TCSTCOFINS;
+      property ID: Integer read FID write SetID;
+      property Descricao: String read FDescricao write SetDescricao;
+  end;
+
+implementation
+
+{ TCSTCOFINS }
+
+class function TCSTCOFINS.New: TCSTCOFINS;
+begin
+  Result := Self.Create;
+end;
+
+procedure TCSTCOFINS.SetDescricao(const Value: String);
+begin
+  FDescricao := Value;
+end;
+
+procedure TCSTCOFINS.SetID(const Value: Integer);
+begin
+  FID := Value;
+end;
+
+end.

@@ -1,0 +1,119 @@
+unit ACPDV.DataModule.DAO.CSTCOFINS;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CSTCOFINS,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOCodigoANP = class(TInterfacedObject, iDAO<TCSTCOFINS>)
+    private
+      FCSTCOFINS: TCSTCOFINS;
+      FCSTCOFINSs: TObjectList<TCSTCOFINS>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCSTCOFINS>;
+      function Listar: iDAO<TCSTCOFINS>;
+      function ListarPorID(aID: Variant): iDAO<TCSTCOFINS>;
+      function Excluir(aID: Variant): iDAO<TCSTCOFINS>; overload;
+      function Excluir: iDAO<TCSTCOFINS>; overload;
+      function Atualizar: iDAO<TCSTCOFINS>;
+      function Inserir: iDAO<TCSTCOFINS>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCSTCOFINS>;
+      function This: TCSTCOFINS;
+      function These: TObjectList<TCSTCOFINS>;
+  end;
+
+implementation
+
+{ TDAOCodigoANP }
+
+function TDAOCodigoANP.Atualizar: iDAO<TCSTCOFINS>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE CSTCOFINS           '+
+    'SET DESCRICAO = :DESCRICAO '+
+    'WHERE ID = :ID             '
+  )
+  .Params('DESCRICAO', FCSTCOFINS.Descricao)
+  .Params('ID', FCSTCOFINS.ID)
+  .ExecSQL;
+end;
+
+constructor TDAOCodigoANP.Create;
+begin
+  FCSTCOFINS := TCSTCOFINS.New;
+  FCSTCOFINSs := TObjectList<TCSTCOFINS>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOCodigoANP.DataSource(
+  var aDataSource: TDataSource): iDAO<TCSTCOFINS>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOCodigoANP.Destroy;
+begin
+  FreeAndNil(FCSTCOFINS);
+  FreeAndNil(FCSTCOFINSs);
+  FreeAndNil(FConexaoDB);
+  inherited;
+end;
+
+function TDAOCodigoANP.Excluir: iDAO<TCSTCOFINS>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM CSTCOFINS '+
+    'WHERE ID = :ID        '
+  )
+  .Params('ID', FCSTCOFINS.ID)
+  .ExecSQL;
+end;
+
+function TDAOCodigoANP.Excluir(aID: Variant): iDAO<TCSTCOFINS>;
+begin
+
+end;
+
+function TDAOCodigoANP.Inserir: iDAO<TCSTCOFINS>;
+begin
+
+end;
+
+function TDAOCodigoANP.Listar: iDAO<TCSTCOFINS>;
+begin
+
+end;
+
+function TDAOCodigoANP.ListarPorID(aID: Variant): iDAO<TCSTCOFINS>;
+begin
+
+end;
+
+class function TDAOCodigoANP.New: iDAO<TCSTCOFINS>;
+begin
+
+end;
+
+function TDAOCodigoANP.These: TObjectList<TCSTCOFINS>;
+begin
+
+end;
+
+function TDAOCodigoANP.This: TCSTCOFINS;
+begin
+
+end;
+
+end.

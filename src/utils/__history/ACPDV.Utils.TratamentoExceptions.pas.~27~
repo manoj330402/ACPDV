@@ -1,0 +1,137 @@
+unit ACPDV.Utils.TratamentoExceptions;
+
+interface
+
+uses
+  VCL.Forms, System.SysUtils, Vcl.Graphics, Vcl.Imaging.jpeg, System.Classes,
+  ACPDV.View.CentralMensagens, Vcl.ExtCtrls;
+
+type
+  TException = class
+  private
+    FLogFile: string;
+    FApplicationPath: string;
+    FLogPath: string;
+    FLogImages: string;
+
+    procedure GravarLog(aInfo, aMensagem: string);
+    procedure GravarImagemFormulario(const aNomeArquivo: string; aFormulario: TForm);
+    procedure TratarException(aSender: TObject; E: Exception);
+    procedure TratarMensagem(aOwner: TComponent; E: Exception);
+  public
+    constructor Create;
+  end;
+
+implementation
+
+{ TException }
+
+constructor TException.Create;
+begin
+  FApplicationPath := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+  FLogPath := IncludeTrailingPathDelimiter(FApplicationPath + 'Logs');
+  FLogImages := IncludeTrailingPathDelimiter(FLogPath + 'Images');
+  FLogFile := FLogPath + ExtractFileName(ChangeFileExt(ParamStr(0), '')) + '.log';
+
+  ForceDirectories(FLogPath);
+  ForceDirectories(FLogImages);
+
+  Application.OnException := TratarException;
+end;
+
+procedure TException.GravarImagemFormulario(const aNomeArquivo: string; aFormulario: TForm);
+var
+  xBitMap: TBitMap;
+  xJpg: TJpegImage;
+begin
+  xBitMap := TBitMap.Create;
+  xJpg := TJpegImage.Create;
+
+  try
+    xBitMap.Assign(aFormulario.GetFormImage);
+    xJpg.Assign(xBitMap);
+    xJpg.SaveToFile(Format('%s\%s.jpg', [FLogImages, aNomeArquivo]));
+  finally
+    xBitMap.DisposeOf;
+    xJpg.DisposeOf;
+  end;
+end;
+
+procedure TException.GravarLog(aInfo, aMensagem: string);
+var
+  xArquivo: TextFile;
+begin
+  AssignFile(xArquivo, FLogFile);
+  if not FileExists(FLogFile) then
+    Rewrite(xArquivo)
+  else
+    Append(xArquivo);
+
+  Writeln(xArquivo, aInfo + aMensagem);
+  CloseFile(xArquivo);
+end;
+
+procedure TException.TratarException(aSender: TObject; E: Exception);
+var
+  xDataHora: string;
+begin
+  xDataHora := FormatDateTime('ddmmyyyyhhmmss', Now);
+
+  GravarLog('[Data/Hora..............]', FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+  GravarLog('[Mensagem...............]', E.Message);
+  GravarLog('[Classe Exceção.........]', E.ClassName);
+
+  if (TComponent(aSender) is TForm) then
+    GravarLog('[Formulário.............]', TForm(aSender).Name)
+  else
+    GravarLog('[Formulário.............]', TForm(TComponent(aSender).Owner).Name);
+
+  GravarLog('[Unit...................]', aSender.UnitName);
+  GravarLog('[Componente Visual......]', Screen.ActiveControl.Name);
+  GravarLog('', StringOfChar('-', 70));
+  GravarLog('', '');
+
+  GravarImagemFormulario(xDataHora, Screen.ActiveForm);
+end;
+
+procedure TException.TratarMensagem(aOwner: TComponent; E: Exception);
+var
+  xMensagem: TfrmCentralMensagens;
+  xPanel: TPanel;
+  I: Integer;
+begin
+  xMensagem := TfrmCentralMensagens.New(aOwner);
+
+  if TForm(aOwner).Parent <> nil then
+    xMensagem.Embed(TPanel(TForm(aOwner).Parent))
+  else
+  begin
+    xPanel := TPanel(TForm(aOwner).Controls[0]);
+
+    for I := Pred(xPanel.ControlCount) downto 0 do
+      if (xPanel.Controls[I] is TPanel) and (xPanel.Controls[I].Tag = 255) then
+        xMensagem.Embed(TPanel(xPanel.Controls[I]));
+
+  end;
+
+  if E is EConvertError then
+    xMensagem.Mensagem('Erro de conversão de dados', Erro).ClikOK(
+      procedure(aSender: TObject)
+      begin
+        //
+      end);
+
+end;
+
+var
+  MinhaException: TException;
+
+initialization
+  MinhaException := TException.Create;
+
+
+finalization
+  FreeAndNil(MinhaException);
+
+end.
+

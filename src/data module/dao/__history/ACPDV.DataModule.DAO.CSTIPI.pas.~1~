@@ -1,0 +1,106 @@
+unit ACPDV.DataModule.DAO.CSTIPI;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CSTIPI,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOCodigoANP = class(TInterfacedObject, iDAO<TCSTIPI>)
+    private
+      FCSTIPI: TCSTIPI;
+      FCSTIPIs: TObjectList<TCSTIPI>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCSTIPI>;
+      function Listar: iDAO<TCSTIPI>;
+      function ListarPorID(aID: Variant): iDAO<TCSTIPI>;
+      function Excluir(aID: Variant): iDAO<TCSTIPI>; overload;
+      function Excluir: iDAO<TCSTIPI>; overload;
+      function Atualizar: iDAO<TCSTIPI>;
+      function Inserir: iDAO<TCSTIPI>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCSTIPI>;
+      function This: TCSTIPI;
+      function These: TObjectList<TCSTIPI>;
+  end;
+
+implementation
+
+{ TDAOCodigoANP }
+
+function TDAOCodigoANP.Atualizar: iDAO<TCSTIPI>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE CSTIPI              '+
+    'SET DESCRICAO = :DESCRICAO '+
+    'WHERE ID = :ID             '
+  )
+  .Params('DESCRICAO', FCSTIPI.Descricao)
+  .Params('ID', FCSTIPI.ID)
+  .ExecSQL;
+end;
+
+constructor TDAOCodigoANP.Create;
+begin
+
+end;
+
+function TDAOCodigoANP.DataSource(var aDataSource: TDataSource): iDAO<TCSTIPI>;
+begin
+
+end;
+
+destructor TDAOCodigoANP.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDAOCodigoANP.Excluir: iDAO<TCSTIPI>;
+begin
+
+end;
+
+function TDAOCodigoANP.Excluir(aID: Variant): iDAO<TCSTIPI>;
+begin
+
+end;
+
+function TDAOCodigoANP.Inserir: iDAO<TCSTIPI>;
+begin
+
+end;
+
+function TDAOCodigoANP.Listar: iDAO<TCSTIPI>;
+begin
+
+end;
+
+function TDAOCodigoANP.ListarPorID(aID: Variant): iDAO<TCSTIPI>;
+begin
+
+end;
+
+class function TDAOCodigoANP.New: iDAO<TCSTIPI>;
+begin
+
+end;
+
+function TDAOCodigoANP.These: TObjectList<TCSTIPI>;
+begin
+
+end;
+
+function TDAOCodigoANP.This: TCSTIPI;
+begin
+
+end;
+
+end.

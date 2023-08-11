@@ -1,0 +1,132 @@
+unit ACPDV.DataModule.Configuracao;
+
+interface
+
+uses
+  System.SysUtils, System.IniFiles, System.Classes, System.ZLib;
+
+type
+  TConfiguracao = class
+    private
+      FPath: String;
+      FArquivo: TIniFile;
+
+      procedure Encriptar;
+      procedure Desencriptar;
+
+      const
+        ARQUIVOINI = 'Configuracao.ini';
+        TEMPINI = 'Temp';
+        SECAOCONF = 'Configuracao';
+    public
+      constructor Create(aPath: String);
+      destructor Destroy; override;
+      class function New(aPath: String): TConfiguracao;
+      function SetDataBase(aValue: String): TConfiguracao;
+      function GetDataBase: String;
+      function SetUserName(aValue: String): TConfiguracao;
+      function GetUserName: String;
+      function SetPassword(aValue: String): TConfiguracao;
+      function GetPassword: String;
+      function SetDriveID(aValue: String): TConfiguracao;
+      function GetDriveID: String;
+      procedure Build;
+      procedure Rebuild;
+  end;
+
+implementation
+
+{ TConfiguracao }
+
+procedure TConfiguracao.Build;
+begin
+  Encriptar;
+end;
+
+constructor TConfiguracao.Create(aPath: String);
+begin
+  FPath := aPath;
+  FArquivo := TIniFile.Create(FPath + ARQUIVOINI);
+end;
+
+procedure TConfiguracao.Desencriptar;
+begin
+
+end;
+
+destructor TConfiguracao.Destroy;
+begin
+  FArquivo.Free;
+  inherited;
+end;
+
+procedure TConfiguracao.Encriptar;
+var xInput, xOut: TStringStream;
+begin
+  xInput := TStringStream.Create;
+  xOut := TStringStream.Create;
+  try
+    xInput.LoadFromFile(FPath + ARQUIVOINI);
+    ZCompressStream(xInput, xOut);
+    xOut.SaveToFile(FPath + ARQUIVOINI);
+  finally
+    xInput.Free;
+    xOut.Free;
+  end;
+end;
+
+function TConfiguracao.GetDataBase: String;
+begin
+  Result := FArquivo.ReadString(SECAOCONF, 'DATABASE', '');
+end;
+
+function TConfiguracao.GetDriveID: String;
+begin
+  Result := FArquivo.ReadString(SECAOCONF, 'DRIVEID', '');
+end;
+
+function TConfiguracao.GetPassword: String;
+begin
+  Result := FArquivo.ReadString(SECAOCONF, 'PASSWORD', '');
+end;
+
+function TConfiguracao.GetUserName: String;
+begin
+  Result := FArquivo.ReadString(SECAOCONF, 'USERNAME', '');
+end;
+
+class function TConfiguracao.New(aPath: String): TConfiguracao;
+begin
+  Result := Self.Create(aPath);
+end;
+
+procedure TConfiguracao.Rebuild;
+begin
+  Desencriptar;
+end;
+
+function TConfiguracao.SetDataBase(aValue: String): TConfiguracao;
+begin
+  Result := Self;
+  FArquivo.WriteString(SECAOCONF, 'DATABASE', aValue);
+end;
+
+function TConfiguracao.SetDriveID(aValue: String): TConfiguracao;
+begin
+  Result := Self;
+  FArquivo.WriteString(SECAOCONF, 'DRIVEID', aValue);
+end;
+
+function TConfiguracao.SetPassword(aValue: String): TConfiguracao;
+begin
+  Result := Self;
+  FArquivo.WriteString(SECAOCONF, 'PASSWORD', aValue);
+end;
+
+function TConfiguracao.SetUserName(aValue: String): TConfiguracao;
+begin
+  Result := Self;
+  FArquivo.WriteString(SECAOCONF, 'USERNAME', aValue);
+end;
+
+end.

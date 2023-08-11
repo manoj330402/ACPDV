@@ -1,0 +1,165 @@
+unit ACPDV.DataModule.DAO.CSTIPI;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CSTIPI,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOCodigoANP = class(TInterfacedObject, iDAO<TCSTIPI>)
+    private
+      FCSTIPI: TCSTIPI;
+      FCSTIPIs: TObjectList<TCSTIPI>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCSTIPI>;
+      function Listar: iDAO<TCSTIPI>;
+      function ListarPorID(aID: Variant): iDAO<TCSTIPI>;
+      function Excluir(aID: Variant): iDAO<TCSTIPI>; overload;
+      function Excluir: iDAO<TCSTIPI>; overload;
+      function Atualizar: iDAO<TCSTIPI>;
+      function Inserir: iDAO<TCSTIPI>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCSTIPI>;
+      function This: TCSTIPI;
+      function These: TObjectList<TCSTIPI>;
+  end;
+
+implementation
+
+{ TDAOCodigoANP }
+
+function TDAOCodigoANP.Atualizar: iDAO<TCSTIPI>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE CSTIPI              '+
+    'SET DESCRICAO = :DESCRICAO '+
+    'WHERE ID = :ID             '
+  )
+  .Params('DESCRICAO', FCSTIPI.Descricao)
+  .Params('ID', FCSTIPI.ID)
+  .ExecSQL;
+end;
+
+constructor TDAOCodigoANP.Create;
+begin
+  FCSTIPI := TCSTIPI.New;
+  FCSTIPIs := TObjectList<TCSTIPI>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOCodigoANP.DataSource(var aDataSource: TDataSource): iDAO<TCSTIPI>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOCodigoANP.Destroy;
+begin
+  FreeAndNil(FCSTIPI);
+  FreeAndNil(FCSTIPIs);
+  FreeAndNil(FConexaoDB);
+  inherited;
+end;
+
+function TDAOCodigoANP.Excluir: iDAO<TCSTIPI>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM CSTIPI '+
+    'WHERE ID = :ID     '
+  )
+  .Params('ID', FCSTIPI.ID)
+  .ExecSQL;
+end;
+
+function TDAOCodigoANP.Excluir(aID: Variant): iDAO<TCSTIPI>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM CSTIPI '+
+    'WHERE ID = :ID     '
+  )
+  .Params('ID', aID)
+  .ExecSQL;
+end;
+
+function TDAOCodigoANP.Inserir: iDAO<TCSTIPI>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL(
+    'INSERT INTO CSTIPI '+
+    '(ID, DESCRICAO)    '+
+    'VALUES             '+
+    '(:ID, :DESCRICAO)  '
+  )
+  .Params('ID', FCSTIPI.ID)
+  .Params('DESCRICAO', FCSTIPI.Descricao)
+  .ExecSQL
+  .SQL('SELECT * FROM CSTIPI WHERE ID = (SELECT MAX(ID) FROM CSTIPI) ')
+  .Open
+  .DataSet;
+
+  FCSTIPI.ID := FDataSet.FieldByName('ID').AsInteger;
+end;
+
+function TDAOCodigoANP.Listar: iDAO<TCSTIPI>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CSTIPI ')
+  .Open
+  .DataSet;
+
+  FDataSet.First;
+  while not FDataSet.Eof do
+  begin
+    FCSTIPI.New;
+    FCSTIPI.ID := FDataSet.FieldByName('ID').AsInteger;
+    FCSTIPI.Descricao := FDataSet.FieldByName('DESCRICAO').AsString;
+
+    FCSTIPIs.Add(FCSTIPI);
+
+    FDataSet.Next;
+  end;
+end;
+
+function TDAOCodigoANP.ListarPorID(aID: Variant): iDAO<TCSTIPI>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CSTIPI WHERE ID = :ID')
+  .Params('ID', aID)
+  .Open
+  .DataSet;
+
+  FCSTIPI.New;
+  FCSTIPI.ID := FDataSet.FieldByName('ID').AsInteger;
+  FCSTIPI.Descricao := FDataSet.FieldByName('DESCRICAO').AsString;
+end;
+
+class function TDAOCodigoANP.New: iDAO<TCSTIPI>;
+begin
+  Result := Self.Create;
+end;
+
+function TDAOCodigoANP.These: TObjectList<TCSTIPI>;
+begin
+  Result := FCSTIPIs.Create;
+end;
+
+function TDAOCodigoANP.This: TCSTIPI;
+begin
+  Result := FCSTIPI.Create;
+end;
+
+end.

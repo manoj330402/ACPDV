@@ -1,0 +1,107 @@
+unit ACPDV.View.Login;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, Vcl.ExtCtrls, ACPDV.Utils.FormHelper, Vcl.Imaging.jpeg, Vcl.Buttons,
+  ACPDV.View.Componente.Transparencia, ACPDV.Controller;
+
+type
+  TfrmLogin = class(TForm)
+    pnlContainer: TPanel;
+    pnlContainerLogin: TPanel;
+    pnlContainerImagem: TPanel;
+    pnlLogin: TPanel;
+    pnlLoginTitulo: TPanel;
+    pnlLoginUsuario: TPanel;
+    Label1: TLabel;
+    Shape1: TShape;
+    edtLoginUsuario: TEdit;
+    pnlLoginSenha: TPanel;
+    Label2: TLabel;
+    Shape2: TShape;
+    edtLoginSenha: TEdit;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Shape3: TShape;
+    btnLogin: TSpeedButton;
+    imgLogin: TImage;
+    procedure btnLoginClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    FController: TController;
+    FBackground: TfrmBackgroundPreto;
+    FProc: TProc<string>;
+  public
+    class function New(aOwner: TComponent): TfrmLogin;
+    function Embed(aValue: TPanel): TfrmLogin;
+    function Informacao(aValue: TProc<string>): TfrmLogin;
+
+  end;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmLogin.btnLoginClick(Sender: TObject);
+begin
+  if not ((edtLoginUsuario.Text = 'Jairo') and (edtLoginSenha.Text = '123')) then
+//  if not FController.Operador.ValidarOperador(edtLoginUsuario.Text, edtLoginSenha.Text) then
+  begin
+    ShowMessage('Login e Senha incorreto');
+    Exit;
+  end;
+  FProc(edtLoginUsuario.Text);
+  Self.RemoveObject;
+end;
+
+function TfrmLogin.Embed(aValue: TPanel): TfrmLogin;
+begin
+  Result := Self;
+  Self.AddObject(aValue);
+end;
+
+procedure TfrmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FBackground.Free;
+end;
+
+procedure TfrmLogin.FormCreate(Sender: TObject);
+begin
+  FController := TController.New;
+  FBackground := TfrmBackgroundPreto.Create(nil);
+  FBackground.Parent := pnlContainerImagem;
+  FBackground.Show;
+end;
+
+procedure TfrmLogin.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_RETURN:
+      btnLogin.Click;
+  end;
+end;
+
+procedure TfrmLogin.FormShow(Sender: TObject);
+begin
+  edtLoginUsuario.SetFocus;
+end;
+
+function TfrmLogin.Informacao(aValue: TProc<string>): TfrmLogin;
+begin
+  Result := Self;
+  FProc := aValue;
+end;
+
+class function TfrmLogin.New(aOwner: TComponent): TfrmLogin;
+begin
+  Result := Self.Create(aOwner);
+end;
+
+end.
+

@@ -1,0 +1,80 @@
+unit ACPDV.View.Componente.ListaPagamentoFechamentoCaixa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TframeComponenteListaFechamentoCaixa = class(TFrame)
+    Shape1: TShape;
+    pnlContainer: TPanel;
+    Panel1: TPanel;
+    SpeedButton1: TSpeedButton;
+    pnlTipoPagamento: TPanel;
+    pnlValor: TPanel;
+  private
+    FProc: TProc<TObject>;
+  public
+    class function New(aOwner: TComponent): TframeComponenteListaFechamentoCaixa;
+    function Embed(aValue: TWinControl): TframeComponenteListaFechamentoCaixa;
+    function Nome(aValue: String): TframeComponenteListaFechamentoCaixa;
+    function TipoPagamento(aValue: String): TframeComponenteListaFechamentoCaixa;
+    function Valor(aValue: String): TframeComponenteListaFechamentoCaixa;
+    function Click(aValue: TProc<TObject>): TframeComponenteListaFechamentoCaixa;
+    function Alinhamento(aValue: TAlign): TframeComponenteListaFechamentoCaixa;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+{ TframeComponenteListaFechamentoCaixa }
+
+function TframeComponenteListaFechamentoCaixa.Alinhamento(
+  aValue: TAlign): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  Self.Align := alBottom;
+  Self.Align := aValue;
+end;
+
+function TframeComponenteListaFechamentoCaixa.Click(
+  aValue: TProc<TObject>): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  FProc := aValue;
+end;
+
+function TframeComponenteListaFechamentoCaixa.Embed(
+  aValue: TWinControl): TframeComponenteListaFechamentoCaixa;
+begin
+
+end;
+
+class function TframeComponenteListaFechamentoCaixa.New(
+  aOwner: TComponent): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self.Create(aOwner);
+end;
+
+function TframeComponenteListaFechamentoCaixa.Nome(
+  aValue: String): TframeComponenteListaFechamentoCaixa;
+begin
+
+end;
+
+function TframeComponenteListaFechamentoCaixa.TipoPagamento(
+  aValue: String): TframeComponenteListaFechamentoCaixa;
+begin
+
+end;
+
+function TframeComponenteListaFechamentoCaixa.Valor(
+  aValue: String): TframeComponenteListaFechamentoCaixa;
+begin
+
+end;
+
+end.
