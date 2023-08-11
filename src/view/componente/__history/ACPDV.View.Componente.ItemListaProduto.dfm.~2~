@@ -1,0 +1,131 @@
+object frameComponenteListaItem: TframeComponenteListaItem
+  Left = 0
+  Top = 0
+  Width = 814
+  Height = 50
+  Margins.Right = 0
+  TabOrder = 0
+  object Shape1: TShape
+    AlignWithMargins = True
+    Left = 0
+    Top = 47
+    Width = 814
+    Height = 1
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 2
+    Align = alBottom
+    Pen.Style = psClear
+    ExplicitTop = -15
+  end
+  object pnlContainer: TPanel
+    Left = 0
+    Top = 0
+    Width = 814
+    Height = 47
+    Align = alClient
+    BevelOuter = bvNone
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Padding.Left = 5
+    Padding.Top = 5
+    Padding.Right = 5
+    Padding.Bottom = 5
+    ParentFont = False
+    TabOrder = 0
+    ExplicitLeft = 312
+    ExplicitTop = 8
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object pnlItemProduto: TPanel
+      Left = 5
+      Top = 5
+      Width = 50
+      Height = 37
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = '1'
+      TabOrder = 0
+    end
+    object pnlCodProduto: TPanel
+      Left = 55
+      Top = 5
+      Width = 110
+      Height = 37
+      Align = alLeft
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Caption = '1234567890'
+      TabOrder = 1
+    end
+    object pnlSubTotalProduto: TPanel
+      Left = 719
+      Top = 5
+      Width = 90
+      Height = 37
+      Align = alRight
+      Alignment = taRightJustify
+      BevelOuter = bvNone
+      Caption = '100,00'
+      TabOrder = 2
+      ExplicitLeft = 689
+    end
+    object pnlQuantidadeProduto: TPanel
+      Left = 629
+      Top = 5
+      Width = 90
+      Height = 37
+      Align = alRight
+      Alignment = taRightJustify
+      BevelOuter = bvNone
+      Caption = '10,000'
+      TabOrder = 3
+      ExplicitLeft = 599
+    end
+    object pnlValorUnitarioProduto: TPanel
+      Left = 529
+      Top = 5
+      Width = 100
+      Height = 37
+      Align = alRight
+      Alignment = taRightJustify
+      BevelOuter = bvNone
+      Caption = '10,00'
+      TabOrder = 4
+      ExplicitLeft = 509
+    end
+    object pnlDescricaoProduto: TPanel
+      Left = 165
+      Top = 5
+      Width = 364
+      Height = 37
+      Align = alClient
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Padding.Top = 8
+      TabOrder = 5
+      ExplicitLeft = 159
+      ExplicitTop = 7
+      object lblDescricaoProduto: TLabel
+        AlignWithMargins = True
+        Left = 5
+        Top = 8
+        Width = 359
+        Height = 29
+        Margins.Left = 5
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alClient
+        Caption = 'Cerveja Heineken 600ml'
+        WordWrap = True
+        ExplicitWidth = 170
+        ExplicitHeight = 21
+      end
+    end
+  end
+end

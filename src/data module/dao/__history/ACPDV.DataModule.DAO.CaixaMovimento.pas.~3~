@@ -1,0 +1,135 @@
+unit ACPDV.DataModule.DAO.CaixaMovimento;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CaixaMovimento,
+  ACPDV.DataModule.ConexaoBD;
+
+type
+  TDAOCaixaMovimento = class(TInterfacedObject, iDAO<TCaixaMovimento>)
+    private
+      FCaixaMovimento: TCaixaMovimento;
+      FCaixaMovimentos: TObjectList<TCaixaMovimento>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCaixaMovimento>;
+      function Listar: iDAO<TCaixaMovimento>;
+      function ListarPorID(aID: Variant): iDAO<TCaixaMovimento>;
+      function Excluir(aID: Variant): iDAO<TCaixaMovimento>; overload;
+      function Excluir: iDAO<TCaixaMovimento>; overload;
+      function Atualizar: iDAO<TCaixaMovimento>;
+      function Inserir: iDAO<TCaixaMovimento>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCaixaMovimento>;
+      function This: TCaixaMovimento;
+      function These: TObjectList<TCaixaMovimento>;
+
+  end;
+
+implementation
+
+{ TDAOCaixa }
+
+function TDAOCaixaMovimento.Atualizar: iDAO<TCaixaMovimento>;
+begin
+
+end;
+
+constructor TDAOCaixaMovimento.Create;
+begin
+  FCaixaMovimento := TCaixaMovimento.New;
+  FCaixaMovimentos := TObjectList<TCaixaMovimento>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOCaixaMovimento.DataSource(var aDataSource: TDataSource): iDAO<TCaixaMovimento>;
+begin
+
+end;
+
+destructor TDAOCaixaMovimento.Destroy;
+begin
+  FCaixaMovimento.Free;
+  FCaixaMovimentos.Free;
+  FConexaoDB.Free;
+  inherited;
+end;
+
+function TDAOCaixaMovimento.Excluir: iDAO<TCaixaMovimento>;
+begin
+
+end;
+
+function TDAOCaixaMovimento.Excluir(aID: Variant): iDAO<TCaixaMovimento>;
+begin
+
+end;
+
+function TDAOCaixaMovimento.Inserir: iDAO<TCaixaMovimento>;
+begin
+
+end;
+
+function TDAOCaixaMovimento.Listar: iDAO<TCaixaMovimento>;
+begin
+  Result := Self;
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CAIXA_MOVIMENTO ').Open.DataSet;
+
+  FDataSet.First;
+  while not FDataSet.Eof do
+  begin
+    FCaixaMovimento.New;
+    FCaixaMovimento.ID := FDataSet.FieldByName('ID').AsInteger;
+    FCaixaMovimento.IDOperador := FDataSet.FieldByName('ID_OPERADOR').AsInteger;
+    FCaixaMovimento.IDCaixa := FDataSet.FieldByName('ID_CAIXA').AsInteger;
+    FCaixaMovimento.IDTurno := FDataSet.FieldByName('ID_TURNO').AsInteger;
+    FCaixaMovimento.DataAbertura := FDataSet.FieldByName('DATA_ABERTURA').AsDateTime;
+    FCaixaMovimento.DataFechamento := FDataSet.FieldByName('DATA_FECHAMENTO').AsDateTime;
+    FCaixaMovimento.Situação := FDataSet.fieldbyname('SITUACAO').AsString;
+
+    FCaixaMovimentos.Add(FCaixaMovimento);
+
+    FDataSet.Next;
+  end;
+end;
+
+function TDAOCaixaMovimento.ListarPorID(aID: Variant): iDAO<TCaixaMovimento>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CAIXA_MOVIMENTO WHERE ID = :ID')
+  .Params('ID', aID)
+  .Open
+  .DataSet;
+
+  FCaixaMovimento.New;
+  FCaixaMovimento.ID := FDataSet.FieldByName('ID').AsInteger;
+  FCaixaMovimento.IDOperador := FDataSet.FieldByName('ID_OPERADOR').AsInteger;
+  FCaixaMovimento.IDCaixa := FDataSet.FieldByName('ID_CAIXA').AsInteger;
+  FCaixaMovimento.IDTurno := FDataSet.FieldByName('ID_TURNO').AsInteger;
+  FCaixaMovimento.DataAbertura := FDataSet.FieldByName('DATA_ABERTURA').AsDateTime;
+  FCaixaMovimento.DataFechamento := FDataSet.FieldByName('DATA_FECHAMENTO').AsDateTime;
+  FCaixaMovimento.Situação := FDataSet.fieldbyname('SITUACAO').AsString;
+end;
+
+class function TDAOCaixaMovimento.New: iDAO<TCaixaMovimento>;
+begin
+  Result := Self.Create;
+end;
+
+function TDAOCaixaMovimento.These: TObjectList<TCaixaMovimento>;
+begin
+
+end;
+
+function TDAOCaixaMovimento.This: TCaixaMovimento;
+begin
+
+end;
+
+end.

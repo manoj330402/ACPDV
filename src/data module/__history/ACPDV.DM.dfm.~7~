@@ -1,0 +1,27 @@
+object dmDados: TdmDados
+  OnCreate = DataModuleCreate
+  Height = 262
+  Width = 363
+  object mProdutos: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 64
+    Top = 56
+    object mProdutosID: TIntegerField
+      FieldName = 'ID'
+    end
+    object mProdutosCodigo: TStringField
+      FieldName = 'Codigo'
+    end
+    object mProdutosDescricao: TStringField
+      FieldName = 'Descricao'
+      Size = 30
+    end
+    object mProdutosValorUnitario: TCurrencyField
+      FieldName = 'ValorUnitario'
+    end
+    object mProdutosQuantidade: TFloatField
+      FieldName = 'Quantidade'
+    end
+  end
+end

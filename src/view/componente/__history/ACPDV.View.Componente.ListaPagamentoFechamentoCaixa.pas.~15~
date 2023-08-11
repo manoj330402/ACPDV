@@ -1,0 +1,93 @@
+unit ACPDV.View.Componente.ListaPagamentoFechamentoCaixa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls,
+  System.SysUtils;
+
+type
+  TframeComponenteListaFechamentoCaixa = class(TFrame)
+    Shape1: TShape;
+    pnlContainer: TPanel;
+    Panel1: TPanel;
+    btnRemoverComponente: TSpeedButton;
+    pnlTipoPagamento: TPanel;
+    pnlValor: TPanel;
+    procedure btnRemoverComponenteClick(Sender: TObject);
+  private
+    FProc: TProc<TObject>;
+  public
+    class function New(aOwner: TComponent): TframeComponenteListaFechamentoCaixa;
+    function Embed(aValue: TWinControl): TframeComponenteListaFechamentoCaixa;
+    function Nome(aValue: String): TframeComponenteListaFechamentoCaixa;
+    function TipoPagamento(aValue: String): TframeComponenteListaFechamentoCaixa;
+    function Valor(aValue: String): TframeComponenteListaFechamentoCaixa;
+    function Click(aValue: TProc<TObject>): TframeComponenteListaFechamentoCaixa;
+    function Alinhamento(aValue: TAlign): TframeComponenteListaFechamentoCaixa;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+{ TframeComponenteListaFechamentoCaixa }
+
+function TframeComponenteListaFechamentoCaixa.Alinhamento(
+  aValue: TAlign): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  Self.Align := alBottom;
+  Self.Align := aValue;
+end;
+
+function TframeComponenteListaFechamentoCaixa.Click(
+  aValue: TProc<TObject>): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  FProc := aValue;
+end;
+
+function TframeComponenteListaFechamentoCaixa.Embed(
+  aValue: TWinControl): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  Self.Parent := aValue;
+end;
+
+class function TframeComponenteListaFechamentoCaixa.New(
+  aOwner: TComponent): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self.Create(aOwner);
+end;
+
+function TframeComponenteListaFechamentoCaixa.Nome(
+  aValue: String): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  Self.Name := aValue;
+end;
+
+procedure TframeComponenteListaFechamentoCaixa.btnRemoverComponenteClick(
+  Sender: TObject);
+begin
+  if Assigned(FProc) then
+    FProc(Sender);
+end;
+
+function TframeComponenteListaFechamentoCaixa.TipoPagamento(
+  aValue: String): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  pnlTipoPagamento.Caption := aValue;
+end;
+
+function TframeComponenteListaFechamentoCaixa.Valor(
+  aValue: String): TframeComponenteListaFechamentoCaixa;
+begin
+  Result := Self;
+  pnlValor.Caption := Format('R$ %s', [aValue]);
+end;
+
+end.

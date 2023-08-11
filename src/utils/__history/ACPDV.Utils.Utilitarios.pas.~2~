@@ -1,0 +1,14 @@
+unit ACPDV.Utils.Utilitarios;
+
+interface
+
+type
+  TUtilitarios = class
+    private
+    public
+
+  end;
+
+implementation
+
+end.

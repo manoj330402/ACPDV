@@ -1,0 +1,75 @@
+object frameDinheiro: TframeDinheiro
+  Left = 0
+  Top = 0
+  Width = 507
+  Height = 330
+  TabOrder = 0
+  object pnlContainer: TPanel
+    Left = 0
+    Top = 0
+    Width = 507
+    Height = 330
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitLeft = 160
+    ExplicitTop = 144
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object pnlRecebido: TPanel
+      AlignWithMargins = True
+      Left = 40
+      Top = 110
+      Width = 427
+      Height = 110
+      Margins.Left = 40
+      Margins.Top = 110
+      Margins.Right = 40
+      Margins.Bottom = 110
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitTop = 112
+      ExplicitWidth = 425
+      ExplicitHeight = 40
+      object Label1: TLabel
+        Left = 0
+        Top = 0
+        Width = 218
+        Height = 110
+        Align = alLeft
+        Caption = 'Total Recebido:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 6708059
+        Font.Height = -33
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ExplicitHeight = 45
+      end
+      object lblValorRecebido: TLabel
+        AlignWithMargins = True
+        Left = 218
+        Top = 0
+        Width = 209
+        Height = 110
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alClient
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 6708059
+        Font.Height = -33
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ExplicitLeft = 364
+        ExplicitWidth = 61
+        ExplicitHeight = 45
+      end
+    end
+  end
+end

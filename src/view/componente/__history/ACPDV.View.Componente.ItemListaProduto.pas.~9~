@@ -1,0 +1,116 @@
+unit ACPDV.View.Componente.ItemListaProduto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  TframeComponenteListaItem = class(TFrame)
+    Shape1: TShape;
+    pnlContainer: TPanel;
+    pnlItemProduto: TPanel;
+    pnlCodProduto: TPanel;
+    pnlSubTotalProduto: TPanel;
+    pnlQuantidadeProduto: TPanel;
+    pnlValorUnitarioProduto: TPanel;
+    pnlDescricaoProduto: TPanel;
+    lblDescricaoProduto: TLabel;
+  private
+    FProc: TProc<TObject>;
+    FQuantidade: Double;
+    FValorUnitario: Currency;
+  public
+    class function New(aOwner: TComponent): TframeComponenteListaItem;
+    function Embed(aValue: TWinControl): TframeComponenteListaItem;
+    function Item(aValue: Integer): TframeComponenteListaItem;
+    function Codigo(aValue: string): TframeComponenteListaItem;
+    function Descricao(aValue: string): TframeComponenteListaItem;
+    function Quantidade(aValue: Double): TframeComponenteListaItem;
+    function ValorUnitario(aValue: Currency): TframeComponenteListaItem;
+    function Clikar(aValue: TProc<TObject>): TframeComponenteListaItem;
+    function Alinhamento(aValue: TAlign): TframeComponenteListaItem;
+    function NomeFrame(aValue: string): TframeComponenteListaItem;
+    function Build: TframeComponenteListaItem;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+{ TframeComponenteListaItem }
+
+function TframeComponenteListaItem.Alinhamento(aValue: TAlign): TframeComponenteListaItem;
+begin
+  Result := Self;
+  Self.Align := alBottom;
+  Self.Align := aValue;
+end;
+
+function TframeComponenteListaItem.Build: TframeComponenteListaItem;
+begin
+  Result := Self;
+  Self.pnlSubTotalProduto.Caption := FormatCurr('"R$ ",0.00', (FValorUnitario * FQuantidade));
+end;
+
+function TframeComponenteListaItem.Clikar(aValue: TProc<TObject>): TframeComponenteListaItem;
+begin
+  Result := Self;
+  FProc := aValue;
+end;
+
+function TframeComponenteListaItem.Codigo(aValue: string): TframeComponenteListaItem;
+begin
+  Result := Self;
+  Self.pnlCodProduto.Caption := aValue;
+end;
+
+function TframeComponenteListaItem.Descricao(aValue: string): TframeComponenteListaItem;
+begin
+  Result := Self;
+  if Length(aValue) > 40 then
+    pnlDescricaoProduto.Padding.Top := 0;
+  Self.pnlDescricaoProduto.Caption := aValue;
+end;
+
+function TframeComponenteListaItem.Embed(aValue: TWinControl): TframeComponenteListaItem;
+begin
+  Result := Self;
+  Self.Parent := aValue;
+end;
+
+function TframeComponenteListaItem.Item(aValue: Integer): TframeComponenteListaItem;
+begin
+  Result := Self;
+  Self.pnlItemProduto.Caption := IntToStr(aValue);
+end;
+
+class function TframeComponenteListaItem.New(aOwner: TComponent): TframeComponenteListaItem;
+begin
+  Result := Self.Create(aOwner);
+end;
+
+function TframeComponenteListaItem.NomeFrame(aValue: string): TframeComponenteListaItem;
+begin
+  Result := Self;
+  Self.Name := aValue;
+end;
+
+function TframeComponenteListaItem.Quantidade(aValue: Double): TframeComponenteListaItem;
+begin
+  Result := Self;
+  FQuantidade := aValue;
+  Self.pnlQuantidadeProduto.Caption := FormatFloat(',0.000', FQuantidade);
+end;
+
+function TframeComponenteListaItem.ValorUnitario(aValue: Currency): TframeComponenteListaItem;
+begin
+  Result := Self;
+  FValorUnitario := aValue;
+  Self.pnlValorUnitarioProduto.Caption := FormatCurr('"R$ ",0.00', FValorUnitario);
+end;
+
+end.
+

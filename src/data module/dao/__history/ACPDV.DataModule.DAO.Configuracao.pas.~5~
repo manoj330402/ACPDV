@@ -1,0 +1,192 @@
+unit ACPDV.DataModule.DAO.Configuracao;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.Configuracao,
+  ACPDV.DataModule.ConexaoBD, TypInfo, SysUtils;
+
+type
+  TDAOConfiguracao = class(TInterfacedObject, iDAO<TConfiguracao>)
+    private
+      FConfiguracao: TConfiguracao;
+      FConfiguracoes: TObjectList<TConfiguracao>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TConfiguracao>;
+      function Listar: iDAO<TConfiguracao>;
+      function ListarPorID(aID: Variant): iDAO<TConfiguracao>;
+      function Excluir(aID: Variant): iDAO<TConfiguracao>; overload;
+      function Excluir: iDAO<TConfiguracao>; overload;
+      function Atualizar: iDAO<TConfiguracao>;
+      function Inserir: iDAO<TConfiguracao>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TConfiguracao>;
+      function This: TConfiguracao;
+      function These: TObjectList<TConfiguracao>;
+  end;
+
+implementation
+
+{ TDAOConfiguracao }
+
+function TDAOConfiguracao.Atualizar: iDAO<TConfiguracao>;
+var I: Integer;
+    propList: PPropList;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE CONFIGURACAO                                                                                                                                                                    '+
+    'SET LOGOMARCA=:LOGOMARCA, WEBSITE=:WEBSITE, EMAIL=:EMAIL, PORTA=:PORTA, TIPO_APLICATIVO=:TIPO_APLICATIVO, IMPRESSORA=:IMPRESSORA,                                                      '+
+    '	IMPRESSORA_FORMATO=:IMPRESSORA_FORMATO, CERTIFICADO_NUMERO=:CERTIFICADO_NUMERO, CERTIFICADO_SENHA=:CERTIFICADO_SENHA, WS_TIPO_AMBIENTE=:WS_TIPO_AMBIENTE,                             '+
+    '	WS_UF_DESTINO=:WS_UF_DESTINO, WS_PROXY_HOST=:WS_PROXY_HOST, WS_PROXY_PORTA=:WS_PROXY_PORTA, WS_PROXY_USUARIO=:WS_PROXY_USUARIO, WS_PROXY_SENHA=:WS_PROXY_SENHA,                       '+
+    '	WS_TIMEOUT=:WS_TIMEOUT, WS_TENTATIVAS=:WS_TENTATIVAS, WS_INTERVALO_TENTATIVAS=:WS_INTERVALO_TENTATIVAS, WS_TEMPO_CONS_RET=:WS_TEMPO_CONS_RET, WS_AJUSTA_CONS_RET=:WS_AJUSTA_CONS_RET, '+
+    '	SMTP_SERVIDOR=:SMTP_SERVIDOR, SMTP_PORTA=:SMTP_PORTA, SMTP_USUARIO=:SMTP_USUARIO, SMTP_SENHA=:SMTP_SENHA, SMTP_SSL=:SMTP_SSL, SMTP_TLS=:SMTP_TLS,                                     '+
+    '	SMPT_ASSUNTO=:SMPT_ASSUNTO, SMTP_MENSAGEM=:SMTP_MENSAGEM, NFCE_ULTIMO_NUMERO=:NFCE_ULTIMO_NUMERO, NFCE_TOKEN_ID=:NFCE_TOKEN_ID, NFCE_TOKEN_NUMERO=:NFCE_TOKEN_NUMERO,                 '+
+    '	IMP_MODELO=:IMP_MODELO, IMP_PORTA=:IMP_PORTA, IMP_VELOCIDADE=:IMP_VELOCIDADE, IMP_UMA_LINHA=:IMP_UMA_LINHA, IMP_IGNORA_FORMATACAO=:IMP_IGNORA_FORMATACAO,                             '+
+    '	IMP_PAGINA_CODIGO=:IMP_PAGINA_CODIGO, SAT_MODELO=:SAT_MODELO, SAT_GRAVAR_LOG=:SAT_GRAVAR_LOG, SAT_VERSAO_XML=:SAT_VERSAO_XML,                                                         '+
+    '	SAT_COD_ATIVACAO=:SAT_COD_ATIVACAO, SAT_SH_CNPJ=:SAT_SH_CNPJ, SAT_SH_ASSINATURA=:SAT_SH_ASSINATURA, TEF_TIPO=:TEF_TIPO, SITEF_IP=:SITEF_IP, SITEF_LOJA=:SITEF_LOJA,                   '+
+    '	SITEF_TERMINAL=:SITEF_TERMINAL, SITEF_PORTAPINPAD=:SITEF_PORTAPINPAD, SITEF_PARAMETROS=:SITEF_PARAMETROS, SITEF_MSGPINPAD=:SITEF_MSGPINPAD, MFE_CHAVE_ACESSO=:MFE_CHAVE_ACESSO,       '+
+    '	IMP_MARGEM_SUP=:IMP_MARGEM_SUP, IMP_MARGEM_INF=:IMP_MARGEM_INF, IMP_MARGEM_DIR=:IMP_MARGEM_DIR, IMP_MARGEM_ESQ=:IMP_MARGEM_ESQ                                                        '+
+    'WHERE NUMERO_CAIXA=:NUMERO_CAIXA                                                                                                                                                       '
+  )
+  .Params('LOGOMARCA', FConfiguracao.LogoMarcar)
+  .Params('WEBSITE', FConfiguracao.WebSite)
+  .Params('EMAIL', FConfiguracao.Email)
+  .Params('PORTA', FConfiguracao.Porta)
+  .Params('TIPO_APLICATIVO', FConfiguracao.TipoAplicativo)
+  .Params('IMPRESSORA', FConfiguracao.Impressora)
+  .Params('IMPRESSORA_FORMATO', FConfiguracao.ImpressoraFormato)
+  .Params('CERTIFICADO_NUMERO', FConfiguracao.CertificadoNumero)
+  .Params('CERTIFICADO_SENHA', FConfiguracao.CertificadoSenha)
+  .Params('WS_TIPO_AMBIENTE', FConfiguracao.WSTipoAmbiente)
+  .Params('WS_UF_DESTINO', FConfiguracao.WSUFDestino)
+  .Params('WS_PROXY_HOST', FConfiguracao.WSProxyHost)
+  .Params('WS_PROXY_PORTA', FConfiguracao.WSProxyPorta)
+  .Params('WS_PROXY_USUARIO', FConfiguracao.WSProxyUsuario)
+  .Params('WS_PROXY_SENHA', FConfiguracao.WSProxySenha)
+  .Params('WS_TIMEOUT', FConfiguracao.WSTimeOut)
+  .Params('WS_TENTATIVAS', FConfiguracao.WSTentativas)
+  .Params('WS_INTERVALO_TENTATIVAS', FConfiguracao.WSIntervaloTentativas)
+  .Params('WS_TEMPO_CONS_RET', FConfiguracao.WSTempoConsRet)
+  .Params('WS_AJUSTA_CONS_RET', FConfiguracao.WSAjustaConsRet)
+  .Params('SMTP_SERVIDOR', FConfiguracao.SMTPServidor)
+  .Params('SMTP_PORTA', FConfiguracao.SMTPPorta)
+  .Params('SMTP_USUARIO', FConfiguracao.SMTPUsuario)
+  .Params('SMTP_SENHA', FConfiguracao.SMTPSenha)
+  .Params('SMTP_SSL', FConfiguracao.SMTPSSL)
+  .Params('SMTP_TLS', FConfiguracao.SMTPTLS)
+  .Params('SMPT_ASSUNTO', FConfiguracao.SMTPAssunto)
+  .Params('SMTP_MENSAGEM', FConfiguracao.SMTPMensagem)
+  .Params('NFCE_ULTIMO_NUMERO', FConfiguracao.NFCEUltimoNumero)
+  .Params('NFCE_TOKEN_ID', FConfiguracao.NFCETokenID)
+  .Params('NFCE_TOKEN_NUMERO', FConfiguracao.NFCETokenNumero)
+  .Params('IMP_MODELO', FConfiguracao.IMPModelo)
+  .Params('IMP_PORTA', FConfiguracao.IMPPorta)
+  .Params('IMP_VELOCIDADE', FConfiguracao.IMPVelocidade)
+  .Params('IMP_UMA_LINHA', FConfiguracao.IMPUmaLinha)
+  .Params('IMP_IGNORA_FORMATACAO', FConfiguracao.IMPIgnoraFormatacao)
+  .Params('IMP_PAGINA_CODIGO', FConfiguracao.IMPPaginaCodigo)
+  .Params('SAT_MODELO', FConfiguracao.SATModelo)
+  .Params('SAT_GRAVAR_LOG', FConfiguracao.SATGravarLog)
+  .Params('SAT_VERSAO_XML', FConfiguracao.SATVersaoXML)
+  .Params('SAT_COD_ATIVACAO', FConfiguracao.SATCodAtivacao)
+  .Params('SAT_SH_CNPJ', FConfiguracao.SATSHCNPJ)
+  .Params('SAT_SH_ASSINATURA', FConfiguracao.SATSHAssinatura)
+  .Params('TEF_TIPO', FConfiguracao.TEFTipo)
+  .Params('SITEF_IP', FConfiguracao.SITEFIP)
+  .Params('SITEF_LOJA', FConfiguracao.SITEFLoja)
+  .Params('SITEF_TERMINAL', FConfiguracao.SITEFTerminal)
+  .Params('SITEF_PORTAPINPAD', FConfiguracao.SITEFPortaPINPAD)
+  .Params('SITEF_PARAMETROS', FConfiguracao.SITEFParametros)
+  .Params('SITEF_MSGPINPAD', FConfiguracao.SITEFMsgPINPAD)
+  .Params('MFE_CHAVE_ACESSO', FConfiguracao.MFEChaveAcesso)
+  .Params('IMP_MARGEM_SUP', FConfiguracao.IMPMargemSup)
+  .Params('IMP_MARGEM_INF', FConfiguracao.IMPMargemInf)
+  .Params('IMP_MARGEM_DIR', FConfiguracao.IMPMargemDir)
+  .Params('IMP_MARGEM_ESQ', FConfiguracao.IMPMargemEsq)
+  .Params('NUMERO_CAIXA', FConfiguracao.NumeroCaixa)
+  .ExecSQL;
+end;
+
+constructor TDAOConfiguracao.Create;
+begin
+  FConfiguracao := TConfiguracao.New;
+  FConfiguracoes := TObjectList<TConfiguracao>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOConfiguracao.DataSource(
+  var aDataSource: TDataSource): iDAO<TConfiguracao>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOConfiguracao.Destroy;
+begin
+  FreeAndNil(FConfiguracao);
+  FreeAndNil(FConfiguracoes);
+  FreeAndNil(FConexaoDB);
+  inherited;
+end;
+
+function TDAOConfiguracao.Excluir: iDAO<TConfiguracao>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM CONFIGURACAO           '+
+    'WHERE NUMERO_CAIXA = :NUMERO_CAIXA '
+  )
+  .Params('NUMERO_CAIXA', FConfiguracao.NumeroCaixa)
+  .ExecSQL;
+end;
+
+function TDAOConfiguracao.Excluir(aID: Variant): iDAO<TConfiguracao>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'DELETE FROM CONFIGURACAO           '+
+    'WHERE NUMERO_CAIXA = :NUMERO_CAIXA '
+  )
+  .Params('NUMERO_CAIXA', aID)
+  .ExecSQL;
+end;
+
+function TDAOConfiguracao.Inserir: iDAO<TConfiguracao>;
+begin
+
+end;
+
+function TDAOConfiguracao.Listar: iDAO<TConfiguracao>;
+begin
+
+end;
+
+function TDAOConfiguracao.ListarPorID(aID: Variant): iDAO<TConfiguracao>;
+begin
+
+end;
+
+class function TDAOConfiguracao.New: iDAO<TConfiguracao>;
+begin
+
+end;
+
+function TDAOConfiguracao.These: TObjectList<TConfiguracao>;
+begin
+
+end;
+
+function TDAOConfiguracao.This: TConfiguracao;
+begin
+
+end;
+
+end.

@@ -1,0 +1,95 @@
+unit ACPDV.Objeto.NFEInutilizacao;
+
+interface
+
+type
+  TNFEInutilizacao = class
+    private
+      FProtocolo: string;
+      FSerie: Integer;
+      FNumeroFinal: Integer;
+      FNumeroInicial: Integer;
+      FAno: Integer;
+      FJustificativa: string;
+      FDataHoraRECBTO: TDateTime;
+      FXML: string;
+      FDataHoraCadastro: TDateTime;
+      procedure SetAno(const Value: Integer);
+      procedure SetDataHoraCadastro(const Value: TDateTime);
+      procedure SetDataHoraRECBTO(const Value: TDateTime);
+      procedure SetJustificativa(const Value: string);
+      procedure SetNumeroFinal(const Value: Integer);
+      procedure SetNumeroInicial(const Value: Integer);
+      procedure SetProtocolo(const Value: string);
+      procedure SetSerie(const Value: Integer);
+      procedure SetXML(const Value: string);
+
+    public
+      class function New: TNFEInutilizacao;
+      property DataHoraCadastro: TDateTime read FDataHoraCadastro write SetDataHoraCadastro;
+      property Ano: Integer read FAno write SetAno;
+      property NumeroInicial: Integer read FNumeroInicial write SetNumeroInicial;
+      property NumeroFinal: Integer read FNumeroFinal write SetNumeroFinal;
+      property Serie: Integer read FSerie write SetSerie;
+      property Protocolo: string read FProtocolo write SetProtocolo;
+      property DataHoraRECBTO: TDateTime read FDataHoraRECBTO write SetDataHoraRECBTO;
+      property Justificativa: string read FJustificativa write SetJustificativa;
+      property XML: string read FXML write SetXML;
+
+  end;
+
+implementation
+
+{ TNFEInutilizacao }
+
+class function TNFEInutilizacao.New: TNFEInutilizacao;
+begin
+  Result := Self.Create;
+end;
+
+procedure TNFEInutilizacao.SetAno(const Value: Integer);
+begin
+  FAno := Value;
+end;
+
+procedure TNFEInutilizacao.SetDataHoraCadastro(const Value: TDateTime);
+begin
+  FDataHoraCadastro := Value;
+end;
+
+procedure TNFEInutilizacao.SetDataHoraRECBTO(const Value: TDateTime);
+begin
+  FDataHoraRECBTO := Value;
+end;
+
+procedure TNFEInutilizacao.SetJustificativa(const Value: string);
+begin
+  FJustificativa := Value;
+end;
+
+procedure TNFEInutilizacao.SetNumeroFinal(const Value: Integer);
+begin
+  FNumeroFinal := Value;
+end;
+
+procedure TNFEInutilizacao.SetNumeroInicial(const Value: Integer);
+begin
+  FNumeroInicial := Value;
+end;
+
+procedure TNFEInutilizacao.SetProtocolo(const Value: string);
+begin
+  FProtocolo := Value;
+end;
+
+procedure TNFEInutilizacao.SetSerie(const Value: Integer);
+begin
+  FSerie := Value;
+end;
+
+procedure TNFEInutilizacao.SetXML(const Value: string);
+begin
+  FXML := Value;
+end;
+
+end.

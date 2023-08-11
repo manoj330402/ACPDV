@@ -1,0 +1,5 @@
+object dmDados: TdmDados
+  OnCreate = DataModuleCreate
+  Height = 262
+  Width = 363
+end

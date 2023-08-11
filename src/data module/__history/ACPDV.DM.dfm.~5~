@@ -1,0 +1,33 @@
+object dmDados: TdmDados
+  OnCreate = DataModuleCreate
+  Height = 262
+  Width = 363
+  object mProdutos: TClientDataSet
+    PersistDataPacket.Data = {
+      9B0000009619E0BD0100000018000000050000000000030000009B0002494404
+      0001000000000006436F6469676F010049000000010005574944544802000200
+      14000944657363726963616F0100490000000100055749445448020002001400
+      0D56616C6F72556E69746172696F080004000000010007535542545950450200
+      490006004D6F6E6579000A5175616E74696461646508000400000000000000}
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 64
+    Top = 56
+    object mProdutosID: TIntegerField
+      FieldName = 'ID'
+    end
+    object mProdutosCodigo: TStringField
+      FieldName = 'Codigo'
+    end
+    object mProdutosDescricao: TStringField
+      FieldName = 'Descricao'
+    end
+    object mProdutosValorUnitario: TCurrencyField
+      FieldName = 'ValorUnitario'
+    end
+    object mProdutosQuantidade: TFloatField
+      FieldName = 'Quantidade'
+    end
+  end
+end

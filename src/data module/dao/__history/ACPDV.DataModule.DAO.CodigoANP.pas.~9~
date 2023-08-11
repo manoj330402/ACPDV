@@ -1,0 +1,177 @@
+unit ACPDV.DataModule.DAO.CodigoANP;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.CodigoANP,
+  ACPDV.DataModule.ConexaoBD;
+
+type
+  TDAOCodigoANP = class(TInterfacedObject, iDAO<TCodigoANP>)
+    private
+      FCodigoANP: TCodigoANP;
+      FCodigoANPs: TObjectList<TCodigoANP>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCodigoANP>;
+      function Listar: iDAO<TCodigoANP>;
+      function ListarPorID(aID: Variant): iDAO<TCodigoANP>;
+      function Excluir(aID: Variant): iDAO<TCodigoANP>; overload;
+      function Excluir: iDAO<TCodigoANP>; overload;
+      function Atualizar: iDAO<TCodigoANP>;
+      function Inserir: iDAO<TCodigoANP>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCodigoANP>;
+      function This: TCodigoANP;
+      function These: TObjectList<TCodigoANP>;
+  end;
+
+implementation
+
+{ TDAOCodigoANP }
+
+function TDAOCodigoANP.Atualizar: iDAO<TCodigoANP>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE CODIGO_ANP                                           '+
+    'SET PRODUTO = :PRODUTO, FAMILIA = :FAMILIA, GRUPO = :GRUPO, '+
+    'SUB_GRUPO = :SUBGRUPO, SUB_SUB_GRUPO = :SUBSUBGRUPO         '+
+    'CHAVE_REQUISICAO = :CHAVEREQUISICAO                         '+
+    'WHERE ID = :ID                                              '
+  )
+  .Params('PRODUTO', FCodigoANP.Produto)
+  .Params('FAMILIA', FCodigoANP.Familia)
+  .Params('GRUPO', FCodigoANP.Grupo)
+  .Params('SUBGRUPO', FCodigoANP.SubGrupo)
+  .Params('SUBSUBGRUPO', FCodigoANP.SubSubGrupo)
+  .Params('ID', FCodigoANP.ID)
+  .ExecSQL;
+end;
+
+constructor TDAOCodigoANP.Create;
+begin
+  FCodigoANP := TCodigoANP.New;
+  FCodigoANPs := TObjectList<TCodigoANP>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOCodigoANP.DataSource(
+  var aDataSource: TDataSource): iDAO<TCodigoANP>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOCodigoANP.Destroy;
+begin
+  FCodigoANP.Free;
+  FCodigoANPs.Free;
+  FConexaoDB.Free;
+  inherited;
+end;
+
+function TDAOCodigoANP.Excluir: iDAO<TCodigoANP>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL('DELETE FROM CODIGO_ANP '+
+                 'WHERE ID = :ID         ')
+  .Params('ID', FCodigoANP.ID)
+  .ExecSQL;
+end;
+
+function TDAOCodigoANP.Excluir(aID: Variant): iDAO<TCodigoANP>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL('DELETE FROM CODIGO_ANP '+
+                 'WHERE ID = :ID         ')
+  .Params('ID', aID)
+  .ExecSQL;
+end;
+
+function TDAOCodigoANP.Inserir: iDAO<TCodigoANP>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('INSERT INTO CODIGO_ANP                                '+
+                             '(PRODUTO, FAMILIA, GRUPO, SUB_GRUPO, SUB_SUB_GRUPO)   '+
+                             'VALUES                                                '+
+                             '(:PRODUTO, :FAMILIA, :GRUPO, :SUBGRUPO, :SUBSUBGRUPO) ')
+  .Params('PRODUTO', FCodigoANP.Produto)
+  .Params('FAMILIA', FCodigoANP.Familia)
+  .Params('GRUPO', FCodigoANP.Grupo)
+  .Params('SUBGRUPO', FCodigoANP.SubGrupo)
+  .Params('SUBSUBGRUPO', FCodigoANP.SubSubGrupo)
+  .ExecSQL
+  .SQL('SELECT * FROM CODIGO_ANP WHERE ID = (SELECT MAX(ID) FROM CODIGO_ANP) ')
+  .Open
+  .DataSet;
+
+  FCodigoANP.ID := FDataSet.FieldByName('ID').AsInteger;
+end;
+
+function TDAOCodigoANP.Listar: iDAO<TCodigoANP>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CODIGO_ANP ')
+  .Open
+  .DataSet;
+
+  FDataSet.First;
+  while not FDataSet.Eof do
+  begin
+    FCodigoANP.New;
+    FCodigoANP.ID := FDataSet.FieldByName('ID').AsInteger;
+    FCodigoANP.Produto := FDataSet.FieldByName('PRODUTO').AsString;
+    FCodigoANP.Familia := FDataSet.FieldByName('FAMILIA').AsString;
+    FCodigoANP.Grupo := FDataSet.FieldByName('GRUPO').AsString;
+    FCodigoANP.SubGrupo := FDataSet.FieldByName('SUB_GRUPO').AsString;
+    FCodigoANP.SubSubGrupo := FDataSet.FieldByName('SUB_SUB_GRUPO').AsString;
+
+    FCodigoANPs.Add(FCodigoANP);
+
+    FDataSet.Next;
+  end;
+end;
+
+function TDAOCodigoANP.ListarPorID(aID: Variant): iDAO<TCodigoANP>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CODIGO_ANP WHERE ID = :ID')
+  .Params('ID', aID)
+  .Open
+  .DataSet;
+
+  FCodigoANP.New;
+  FCodigoANP.ID := FDataSet.FieldByName('ID').AsInteger;
+  FCodigoANP.Produto := FDataSet.FieldByName('PRODUTO').AsString;
+  FCodigoANP.Familia := FDataSet.FieldByName('FAMILIA').AsString;
+  FCodigoANP.Grupo := FDataSet.FieldByName('GRUPO').AsString;
+  FCodigoANP.SubGrupo := FDataSet.FieldByName('SUB_GRUPO').AsString;
+  FCodigoANP.SubSubGrupo := FDataSet.FieldByName('SUB_SUB_GRUPO').AsString;
+end;
+
+class function TDAOCodigoANP.New: iDAO<TCodigoANP>;
+begin
+  Result := Self.Create;
+end;
+
+function TDAOCodigoANP.These: TObjectList<TCodigoANP>;
+begin
+  Result := FCodigoANPs.Create;
+end;
+
+function TDAOCodigoANP.This: TCodigoANP;
+begin
+  Result := FCodigoANP.Create;
+end;
+
+end.

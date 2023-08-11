@@ -1,0 +1,4 @@
+object dmOperador: TdmOperador
+  Height = 217
+  Width = 274
+end

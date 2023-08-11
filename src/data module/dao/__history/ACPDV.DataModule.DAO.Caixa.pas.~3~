@@ -1,0 +1,122 @@
+unit ACPDV.DataModule.DAO.Caixa;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.Caixa,
+  ACPDV.DataModule.ConexaoBD;
+
+type
+  TDAOCaixa = class(TInterfacedObject, iDAO<TCaixa>)
+  private
+    FCaixa: TCaixa;
+    FCaixas: TObjectList<TCaixa>;
+    FConexaoDB: TdmDados;
+    FDataSet: TDataSet;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    class function New: iDAO<TCaixa>;
+    function Listar: iDAO<TCaixa>;
+    function ListarPorID(aID: Variant): iDAO<TCaixa>;
+    function Excluir(aID: Variant): iDAO<TCaixa>; overload;
+    function Excluir: iDAO<TCaixa>; overload;
+    function Atualizar: iDAO<TCaixa>;
+    function Inserir: iDAO<TCaixa>;
+    function DataSource(var aDataSource: TDataSource): iDAO<TCaixa>;
+    function This: TCaixa;
+    function These: TObjectList<TCaixa>;
+  end;
+
+implementation
+
+{ TDAOCaixa }
+
+function TDAOCaixa.Atualizar: iDAO<TCaixa>;
+begin
+
+end;
+
+constructor TDAOCaixa.Create;
+begin
+  FCaixa := TCaixa.New;
+  FCaixas := TObjectList<TCaixa>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOCaixa.DataSource(var aDataSource: TDataSource): iDAO<TCaixa>;
+begin
+
+end;
+
+destructor TDAOCaixa.Destroy;
+begin
+  FCaixa.Free;
+  FCaixas.Free;
+  FConexaoDB.Free;
+  inherited;
+end;
+
+function TDAOCaixa.Excluir: iDAO<TCaixa>;
+begin
+
+end;
+
+function TDAOCaixa.Excluir(aID: Variant): iDAO<TCaixa>;
+begin
+
+end;
+
+function TDAOCaixa.Inserir: iDAO<TCaixa>;
+begin
+
+end;
+
+function TDAOCaixa.Listar: iDAO<TCaixa>;
+begin
+  Result := Self;
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CAIXA ').Open.DataSet;
+
+  FDataSet.First;
+  while not FDataSet.Eof do
+  begin
+    FCaixa.New;
+    FCaixa.ID := FDataSet.FieldByName('ID').AsInteger;
+    FCaixa.Nome := FDataSet.FieldByName('NOME').AsString;
+
+    FCaixas.Add(FCaixa);
+
+    FDataSet.Next;
+  end;
+end;
+
+function TDAOCaixa.ListarPorID(aID: Variant): iDAO<TCaixa>;
+begin
+  Result := Self;
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CAIXA WHERE ID = :ID')
+  .Params('ID', aID)
+  .Open
+  .DataSet;
+
+  FCaixa.New;
+  FCaixa.ID := FDataSet.FieldByName('ID').AsInteger;
+  FCaixa.Nome := FDataSet.FieldByName('NOME').AsString;
+end;
+
+class function TDAOCaixa.New: iDAO<TCaixa>;
+begin
+  Result := Self.Create;
+end;
+
+function TDAOCaixa.These: TObjectList<TCaixa>;
+begin
+
+end;
+
+function TDAOCaixa.This: TCaixa;
+begin
+
+end;
+
+end.

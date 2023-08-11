@@ -1,0 +1,39 @@
+unit ACPDV.Objeto.CartaoBandeira;
+
+interface
+
+type
+  TCartaoBandeira = class
+    private
+      FDescricao: String;
+      FID: Integer;
+      procedure SetDescricao(const Value: String);
+      procedure SetID(const Value: Integer);
+
+    public
+      class function New: TCartaoBandeira;
+      property ID: Integer read FID write SetID;
+      property Descricao: String read FDescricao write SetDescricao;
+
+  end;
+
+implementation
+
+{ TCartaoBandeira }
+
+class function TCartaoBandeira.New: TCartaoBandeira;
+begin
+  Result := Self.Create;
+end;
+
+procedure TCartaoBandeira.SetDescricao(const Value: String);
+begin
+  FDescricao := Value;
+end;
+
+procedure TCartaoBandeira.SetID(const Value: Integer);
+begin
+  FID := Value;
+end;
+
+end.

@@ -1,0 +1,73 @@
+unit ACPDV.View.ImportarCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons,
+  Vcl.Imaging.pngimage, Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Vcl.WinXCtrls;
+
+type
+  TfrmImportarCliente = class(TForm)
+    pnlContainer: TPanel;
+    pnlTop: TPanel;
+    pnlInfo: TPanel;
+    Panel1: TPanel;
+    Image1: TImage;
+    btnSair: TSpeedButton;
+    pnlTitulo: TPanel;
+    imgCliente: TImage;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    DBGrid1: TDBGrid;
+    Button1: TButton;
+    Shape1: TShape;
+    edtPesquisar: TSearchBox;
+  private
+    FProc: TProc<TObject>;
+  public
+    class function New(aOwner: TComponent): TfrmImportarCliente;
+    function Titulo(aValue: String): TfrmImportarCliente;
+    function Imagem(aValue: String): TfrmImportarCliente;
+    function Click(aValue: TProc<TObject>): TfrmImportarCliente;
+    function Embed(aValue: TWinControl): TfrmImportarCliente;
+  end;
+
+var
+  frmImportarCliente: TfrmImportarCliente;
+
+implementation
+
+{$R *.dfm}
+
+class function TfrmImportarCliente.New(aOwner: TComponent): TfrmImportarCliente;
+begin
+  Result := Self.Create(aOwner);
+end;
+
+function TfrmImportarCliente.Titulo(aValue: String): TfrmImportarCliente;
+begin
+  Result := Self;
+  pnlTitulo.Caption := aValue;
+end;
+
+function TfrmImportarCliente.Imagem(aValue: String): TfrmImportarCliente;
+begin
+  Result := Self;
+  imgCliente.Picture.LoadFromFile(aValue);
+end;
+
+function TfrmImportarCliente.Click(aValue: TProc<TObject>): TfrmImportarCliente;
+begin
+  Result := Self;
+  FProc := aValue;
+end;
+
+function TfrmImportarCliente.Embed(aValue: TWinControl): TfrmImportarCliente;
+begin
+  Result := Self;
+  Self.Parent := aValue;
+end;
+
+end.

@@ -1,0 +1,387 @@
+[Data/Hora.........]16/04/2023 20:31:14
+[Mensagem..........]Access violation at address 00340BA8 in module 'ACPDV.exe'. Execution of address 00340BA8
+[Classe Exceção....]EAccessViolation
+[Formulário......]frmPrincipal
+[Unit..............]Vcl.StdCtrls
+[Componente Visual..............]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora.........]16/04/2023 20:31:17
+[Mensagem..........]Access violation at address 00340BA8 in module 'ACPDV.exe'. Execution of address 00340BA8
+[Classe Exceção....]EAccessViolation
+[Formulário......]frmPrincipal
+[Unit..............]Vcl.StdCtrls
+[Componente Visual..............]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora.........]16/04/2023 20:35:07
+[Mensagem..........]'' is not a valid floating point value
+[Classe Exceção....]EConvertError
+[Formulário......]frmAbrirCaixa_1
+[Unit..............]Vcl.ExtCtrls
+[Componente Visual..............]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 20:42:20
+[Mensagem...............]'' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:38:49
+[Mensagem...............]Access violation at address 0015084C in module 'ACPDV.exe'. Execution of address 0015084C
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:38:52
+[Mensagem...............]Access violation at address 0015084C in module 'ACPDV.exe'. Execution of address 0015084C
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:38:56
+[Mensagem...............]'' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:40:23
+[Mensagem...............]'' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:42:15
+[Mensagem...............]'fd' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:42:39
+[Mensagem...............]'f' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:46:22
+[Mensagem...............]'d' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:48:58
+[Mensagem...............]'' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]16/04/2023 23:54:55
+[Mensagem...............]'' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Data/Hora..............]16/04/2023 23:56:32
+[Mensagem...............]'' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/04/2023 00:07:07
+[Mensagem...............]'re' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtQuantidade
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/04/2023 00:09:10
+[Mensagem...............]'' is not a valid integer value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtValorSuprimento
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/04/2023 00:09:27
+[Mensagem...............]'' is not a valid integer value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtValorSuprimento
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/04/2023 00:10:06
+[Mensagem...............]'' is not a valid floating point value
+[Classe Exceção.........]EConvertError
+[Formulário.............]frmAbrirCaixa
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtValorSuprimento
+----------------------------------------------------------------------
+
+[Data/Hora..............]19/04/2023 11:04:38
+[Mensagem...............]A component named frame0 already exists
+[Classe Exceção.........]EComponentError
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]19/04/2023 11:04:42
+[Mensagem...............]A component named frameComponenteListaItem already exists
+[Classe Exceção.........]EComponentError
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]19/04/2023 11:04:47
+[Mensagem...............]A component named frameComponenteListaItem already exists
+[Classe Exceção.........]EComponentError
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]19/04/2023 11:04:48
+[Mensagem...............]A component named frameComponenteListaItem already exists
+[Classe Exceção.........]EComponentError
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]19/04/2023 11:04:49
+[Mensagem...............]A component named frameComponenteListaItem already exists
+[Classe Exceção.........]EComponentError
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]19/04/2023 11:04:49
+[Mensagem...............]A component named frameComponenteListaItem already exists
+[Classe Exceção.........]EComponentError
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtProduto
+----------------------------------------------------------------------
+
+[Data/Hora..............]22/04/2023 19:19:54
+[Mensagem...............]buffer error
+[Classe Exceção.........]EZDecompressionError
+[Formulário.............]
+[Unit...................]ACPDV.DataModule.ConexaoBD
+[Componente Visual......]edtDriveID
+----------------------------------------------------------------------
+
+[Data/Hora..............]22/04/2023 19:19:55
+[Mensagem...............]Access violation at address 002B3F0E in module 'ACPDV.exe'. Read of address 0002000A
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtDriveID
+----------------------------------------------------------------------
+
+[Data/Hora..............]22/04/2023 19:44:59
+[Mensagem...............]Access violation at address 008AF581 in module 'ACPDV.exe'. Read of address 00000000
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtDriveID
+----------------------------------------------------------------------
+
+[Data/Hora..............]26/04/2023 19:32:22
+[Mensagem...............]A component named frameDinheiro already exists
+[Classe Exceção.........]EComponentError
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]pnlTitulo
+----------------------------------------------------------------------
+
+[Data/Hora..............]26/04/2023 19:32:37
+[Mensagem...............]Access violation at address 00A79030 in module 'ACPDV.exe'. Read of address 00000002
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLoginSupervisor
+[Unit...................]ACPDV.View.LoginSupervisor
+[Data/Hora..............]17/07/2023 22:59:27
+[Mensagem...............]Cannot open file "C:\Users\JairoF\Documents\Embarcadero\Studio\Projects\ACPDV\bin\Configuracao.ini". O sistema não pode encontrar o arquivo especificado
+[Classe Exceção.........]EFOpenError
+[Data/Hora..............]17/07/2023 22:59:30
+[Mensagem...............]Access violation at address 008F627C in module 'ACPDV.exe'. Read of address 00000008
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 22:59:51
+[Mensagem...............]Cannot open file "C:\Users\JairoF\Documents\Embarcadero\Studio\Projects\ACPDV\bin\Configuracao.ini". O sistema não pode encontrar o arquivo especificado
+[Classe Exceção.........]EFOpenError
+[Data/Hora..............]17/07/2023 22:59:52
+[Mensagem...............]Access violation at address 008F627C in module 'ACPDV.exe'. Read of address 00000008
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:06:04
+[Mensagem...............][FireDAC][Phys][SQLite] ERROR: unable to open database file
+[Classe Exceção.........]ESQLiteNativeException
+[Data/Hora..............]17/07/2023 23:06:05
+[Mensagem...............]Access violation at address 008F627C in module 'ACPDV.exe'. Read of address 00000008
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:18:03
+[Mensagem...............]buffer error
+[Classe Exceção.........]EZDecompressionError
+[Data/Hora..............]17/07/2023 23:18:04
+[Mensagem...............]Access violation at address 008F627C in module 'ACPDV.exe'. Read of address 00000008
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:18:08
+[Mensagem...............]Access violation at address 000A0354 in module 'ACPDV.exe'. Execution of address 000A0354
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:18:11
+[Mensagem...............]Access violation at address 000A0354 in module 'ACPDV.exe'. Execution of address 000A0354
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:22:11
+[Mensagem...............][FireDAC][Phys][SQLite] ERROR: Cipher: DB is not encrypted
+[Classe Exceção.........]ESQLiteNativeException
+[Formulário.............]
+[Unit...................]ACPDV.DataModule.ConexaoBD
+[Componente Visual......]edtDataBase
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:22:13
+[Mensagem...............]Access violation at address 00803F26 in module 'ACPDV.exe'. Read of address 0002000A
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmPrincipal
+[Unit...................]Vcl.ExtCtrls
+[Componente Visual......]edtDataBase
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:23:03
+[Mensagem...............]Access violation at address 00759030 in module 'ACPDV.exe'. Read of address 00000002
+[Classe Exceção.........]EAccessViolation
+[Formulário.............]frmLoginSupervisor
+[Unit...................]ACPDV.View.LoginSupervisor
+[Data/Hora..............]17/07/2023 23:23:52
+[Mensagem...............][FireDAC][Phys][SQLite]-306. Command [qQuery] text must be not empty
+[Classe Exceção.........]EFDException
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:26:49
+[Mensagem...............][FireDAC][Phys][SQLite]-306. Command [qQuery] text must be not empty
+[Classe Exceção.........]EFDException
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:27:12
+[Mensagem...............][FireDAC][Phys][SQLite]-306. Command [qQuery] text must be not empty
+[Classe Exceção.........]EFDException
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:35:12
+[Mensagem...............][FireDAC][Phys][SQLite] ERROR: no such table: OPERADOR
+[Classe Exceção.........]ESQLiteNativeException
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:39:38
+[Mensagem...............]Invalid pointer operation
+[Classe Exceção.........]EInvalidPointer
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:41:37
+[Mensagem...............]Invalid pointer operation
+[Classe Exceção.........]EInvalidPointer
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:46:57
+[Mensagem...............]Invalid pointer operation
+[Classe Exceção.........]EInvalidPointer
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:48:26
+[Mensagem...............]Invalid pointer operation
+[Classe Exceção.........]EInvalidPointer
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:50:02
+[Mensagem...............]Invalid pointer operation
+[Classe Exceção.........]EInvalidPointer
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+
+[Data/Hora..............]17/07/2023 23:50:34
+[Mensagem...............]Invalid pointer operation
+[Classe Exceção.........]EInvalidPointer
+[Formulário.............]frmLogin
+[Unit...................]Vcl.StdCtrls
+[Componente Visual......]edtLoginSenha
+----------------------------------------------------------------------
+

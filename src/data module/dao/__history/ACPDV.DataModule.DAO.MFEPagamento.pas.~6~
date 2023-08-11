@@ -1,0 +1,139 @@
+unit ACPDV.DataModule.DAO.MFEPagamento;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.MFEPagamento,
+  ACPDV.DataModule.ConexaoBD, SysUtils;
+
+type
+  TDAOMFEPagamento = class(TInterfacedObject, iDAO<TMFEPagamento>)
+    private
+      FMFEPagamento: TMFEPagamento;
+      FMFEPagamentos: TObjectList<TMFEPagamento>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TMFEPagamento>;
+      function Listar: iDAO<TMFEPagamento>;
+      function ListarPorID(aID: Variant): iDAO<TMFEPagamento>; overload;
+      function Excluir(aID: Variant): iDAO<TMFEPagamento>; overload;
+      function Excluir: iDAO<TMFEPagamento>; overload;
+      function Atualizar: iDAO<TMFEPagamento>;
+      function Inserir: iDAO<TMFEPagamento>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TMFEPagamento>;
+      function This: TMFEPagamento;
+      function These: TObjectList<TMFEPagamento>;
+  end;
+
+implementation
+
+{ TDAOFormaPagamento }
+
+function TDAOMFEPagamento.Atualizar: iDAO<TMFEPagamento>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL(
+    'UPDATE MFE_PAGAMENTO															                                 '+
+    'SET ID_RESPOSTA_FISCAL = :ID_RESPOSTA_FISCAL, ID_ADQUIRENTE = :ID_ADQUIRENTE, 	   '+
+    'MENSAGEM = :MENSAGEM, STATUSPAGAMENTO = :STATUSPAGAMENTO, MFE_ID = :MFE_ID, 	     '+
+    'MFE_CODIGO = :MFE_CODIGO, MFE_VALOR = :MFE_VALOR, CFE_SERIE = :CFE_SERIE,		     '+
+    'CFE_NUMERO = :CFE_NUMERO, CODIGOAUTORIZACAO = :CODIGOAUTORIZACAO, NSU = :NSU,     '+
+    'BIN = :BIN, DONOCARTAO = :DONOCARTAO, DATAEXPIRACAO = :DATAEXPIRACAO, 			       '+
+    'INSTITUICAOFINANCEIRA = :INSTITUICAOFINANCEIRA, PARCELAS = :PARCELAS, 			       '+
+    'ULTIMOSQUATRODIGITOS = :ULTIMOSQUATRODIGITOS, CODIGOPAGAMENTO = :CODIGOPAGAMENTO, '+
+    'VALORPAGAMENTO = :VALORPAGAMENTO, IDFILA = :IDFILA, TIPO = :TIPO				           '+
+    'WHERE ID = :ID																	                                   '
+  )
+  .Params('ID', FMFEPagamento.ID)
+  .Params('ID_RESPOSTA_FISCAL', FMFEPagamento.IDRespostaFiscal)
+  .Params('ID_ADQUIRENTE', FMFEPagamento.IDAdquirente)
+  .Params('MENSAGEM', FMFEPagamento.Mensagem)
+  .Params('STATUSPAGAMENTO', FMFEPagamento.StatusPagamento)
+  .Params('MFE_ID', FMFEPagamento.MFEID)
+  .Params('MFE_CODIGO', FMFEPagamento.MFECodigo)
+  .Params('MFE_VALOR', FMFEPagamento.MFEValor)
+  .Params('CFE_SERIE', FMFEPagamento.CFESerie)
+  .Params('CFE_NUMERO', FMFEPagamento.CFENumero)
+  .Params('CODIGOAUTORIZACAO', FMFEPagamento.CodigoAutorizacao)
+  .Params('NSU', FMFEPagamento.NSU)
+  .Params('BIN', FMFEPagamento.BIN)
+  .Params('DONOCARTAO', FMFEPagamento.DonoCartao)
+  .Params('DATAEXPIRACAO', FMFEPagamento.DataExpiracao)
+  .Params('INSTITUICAOFINANCEIRA', FMFEPagamento.InstituicaoFinanceira)
+  .Params('PARCELAS', FMFEPagamento.Parcelas)
+  .Params('ULTIMOSQUATRODIGITOS', FMFEPagamento.UltimosQuatroDigitos)
+  .Params('CODIGOPAGAMENTO', FMFEPagamento.CodigoPagamento)
+  .Params('VALORPAGAMENTO', FMFEPagamento.ValorPagamento)
+  .Params('IDFILA', FMFEPagamento.IDFila)
+  .Params('TIPO', FMFEPagamento.Tipo)
+  .ExecSQL;
+end;
+
+constructor TDAOMFEPagamento.Create;
+begin
+  FMFEPagamento := TMFEPagamento.New;
+  FMFEPagamentos := TObjectList<TMFEPagamento>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOMFEPagamento.DataSource(
+  var aDataSource: TDataSource): iDAO<TMFEPagamento>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOMFEPagamento.Destroy;
+begin
+  FreeAndNil(FMFEPagamento);
+  FreeAndNil(FMFEPagamentos);
+  FreeAndNil(FConexaoDB);
+  inherited;
+end;
+
+function TDAOMFEPagamento.Excluir: iDAO<TMFEPagamento>;
+begin
+
+end;
+
+function TDAOMFEPagamento.Excluir(aID: Variant): iDAO<TMFEPagamento>;
+begin
+
+end;
+
+function TDAOMFEPagamento.Inserir: iDAO<TMFEPagamento>;
+begin
+
+end;
+
+function TDAOMFEPagamento.Listar: iDAO<TMFEPagamento>;
+begin
+
+end;
+
+function TDAOMFEPagamento.ListarPorID(aID: Variant): iDAO<TMFEPagamento>;
+begin
+
+end;
+
+class function TDAOMFEPagamento.New: iDAO<TMFEPagamento>;
+begin
+
+end;
+
+function TDAOMFEPagamento.These: TObjectList<TMFEPagamento>;
+begin
+
+end;
+
+function TDAOMFEPagamento.This: TMFEPagamento;
+begin
+
+end;
+
+end.

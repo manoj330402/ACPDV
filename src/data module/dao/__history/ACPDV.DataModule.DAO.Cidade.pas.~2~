@@ -1,0 +1,163 @@
+﻿unit ACPDV.DataModule.DAO.Cidade;
+
+interface
+
+uses
+  ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, Data.DB,
+  System.Generics.Collections, ACPDV.Objeto.Cidade,
+  ACPDV.DataModule.ConexaoBD;
+
+type
+  TDAOCidade = class(TInterfacedObject, iDAO<TCidade>)
+    private
+      FCidade: TCidade;
+      FCidades: TObjectList<TCidade>;
+      FConexaoDB: TdmDados;
+      FDataSet: TDataSet;
+
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New: iDAO<TCidade>;
+      function Listar: iDAO<TCidade>;
+      function ListarPorCodIBGE(aCodIBGE: Variant): iDAO<TCidade>;
+      function Excluir(aCodIBGE: Variant): iDAO<TCidade>; overload;
+      function Excluir: iDAO<TCidade>; overload;
+      function Atualizar: iDAO<TCidade>;
+      function Inserir: iDAO<TCidade>;
+      function DataSource(var aDataSource: TDataSource): iDAO<TCidade>;
+      function This: TCidade;
+      function These: TObjectList<TCidade>;
+
+  end;
+
+implementation
+
+{ TDAOCidade }
+
+function TDAOCidade.Atualizar: iDAO<TCidade>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL('UPDATE CIDADE                           '+
+                 'SET DESCRICAO = :DESCRICAO, ID_UF = :UF '+
+                 'WHERE COD_IBGE = :CODIBGE               ')
+  .Params('UF', FCidade.IdUF)
+  .Params('DESCRICAO', FCidade.Descricao)
+  .Params('CODIBGE', FCidade.CodIBGE)
+  .ExecSQL;
+end;
+
+constructor TDAOCidade.Create;
+begin
+  FCidade := TCidade.New;
+  FCidades := TObjectList<TCidade>.Create;
+  FConexaoDB := TdmDados.New;
+end;
+
+function TDAOCidade.DataSource(var aDataSource: TDataSource): iDAO<TCidade>;
+begin
+  Result := Self;
+  aDataSource.DataSet := FDataSet;
+end;
+
+destructor TDAOCidade.Destroy;
+begin
+  FCidade.Free;
+  FCidades.Free;
+  FConexaoDB.Free;
+  inherited;
+end;
+
+function TDAOCidade.Excluir: iDAO<TCidade>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL('DELETE FROM CIDADE        '+
+                 'WHERE COD_IBGE = :CODIBGE ')
+  .Params('CODIBGE', FCidade.CodIBGE)
+  .ExecSQL;
+end;
+
+function TDAOCidade.Excluir(aCodIBGE: Variant): iDAO<TCidade>;
+begin
+  Result := Self;
+
+  FConexaoDB.SQL('DELETE FROM CIDADE        '+
+                 'WHERE COD_IBGE = :CODIBGE ')
+  .Params('CODIBGE', aCodIBGE)
+  .ExecSQL;
+end;
+
+function TDAOCidade.Inserir: iDAO<TCidade>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('INSERT INTO CIDADE            '+
+                             '(COD_IBGE, DESCRICAO, ID_UF)  '+
+                             'VALUES                        '+
+                             '(:CODIBGE, :DESCRICAO, :IDUF) ')
+  .Params('CODIBGE', FCidade.CodIBGE)
+  .Params('DESCRICAO', FCidade.Descricao)
+  .Params('IDUF', FCidade.IdUF)
+  .ExecSQL
+//  .SQL('SELECT * FROM CIDADE WHERE ID = (SELECT MAX(ID) FROM ADQUIRENTE) ')
+//  .Open
+//  .DataSet;
+//
+//  FCidade.CodIBGE := FDataSet.FieldByName('CODIBGE').AsInteger;
+end;
+
+function TDAOCidade.Listar: iDAO<TCidade>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CIDADE ')
+  .Open
+  .DataSet;
+
+  FDataSet.First;
+  while not FDataSet.Eof do
+  begin
+    FCidade.New;
+    FCidade.CodIBGE := FDataSet.FieldByName('CODIBGE').AsInteger;
+    FCidade.IdUF := FDataSet.FieldByName('IDUF').AsString;
+    FCidade.Descricao := FDataSet.FieldByName('DESCRICAO').AsString;
+
+    FCidades.Add(FCidade);
+
+    FDataSet.Next;
+  end;
+end;
+
+function TDAOCidade.ListarPorCodIBGE(aCodIBGE: Variant): iDAO<TCidade>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB.SQL('SELECT * FROM CIDADE WHERE COD_IBGE = :CODIBGE')
+  .Params('CODIBGE', aCodIBGE)
+  .Open
+  .DataSet;
+
+  FCidade.New;
+  FCidade.CodIBGE := FDataSet.FieldByName('COD_IBGE').AsInteger;
+  FCidade.IdUF := FDataSet.FieldByName('ID_UF').AsString;
+  FCidade.Descricao := FDataSet.FieldByName('DESCRICAO').AsString;
+end;
+
+class function TDAOCidade.New: iDAO<TCidade>;
+begin
+  Result := Self.Create;
+end;
+
+function TDAOCidade.These: TObjectList<TCidade>;
+begin
+  Result := FCidades;
+end;
+
+function TDAOCidade.This: TCidade;
+begin
+  Result := FCidade;
+end;
+
+end.
