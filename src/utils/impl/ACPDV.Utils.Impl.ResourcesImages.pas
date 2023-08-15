@@ -39,13 +39,13 @@ end;
 function TResourceImage.resourceimage(aImage: TImage;
   aResource: String): iImage;
 var
-  lResource: TResourceStream;
+  xResource: TResourceStream;
 begin
-  lResource := TResourceStream.Create(HInstance, aResource, RT_RCDATA);
+  xResource := TResourceStream.Create(HInstance, aResource, RT_RCDATA);
   try
-    aImage.Picture.LoadFromStream(lResource);
+    aImage.Picture.LoadFromStream(xResource);
   finally
-    lResource.Free;
+    xResource.Free;
   end;
 end;
 
