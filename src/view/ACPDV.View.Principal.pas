@@ -420,13 +420,12 @@ begin
 end;
 
 procedure TfrmPrincipal.InformacoesDoOperador;
-//var
-//  xCaption, xOperador: string;
+var xCaption: string;
 begin
 //  xOperador := 'Caixa ' + FAbrirCaixa.Caixa.ToString + ' | Operador: ' + FAbrirCaixa.Operador + ' | Turno: ' + FAbrirCaixa.Turno.ToString;
 
-//  xCaption := StringOfChar(' ', (255 - (Length(Self.Caption) + Length(xOperador))));
-//  Self.Caption := Self.Caption + xCaption + xOperador;
+  xCaption := StringOfChar(' ', (255 - (Length(Self.Caption) + Length(FCaixa.Items['nomecaixa']))));
+  Self.Caption := Self.Caption + '' + FCaixa.Items['nomecaixa'];
 end;
 
 procedure TfrmPrincipal.MontarBotoes;
