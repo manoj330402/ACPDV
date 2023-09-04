@@ -18,7 +18,7 @@ type
     public
       constructor Create;
       destructor Destroy; override;
-      class function New: iDAO<TCaixaMovimento>;
+      class function New: TDAOCaixaMovimento;
       function Listar: iDAO<TCaixaMovimento>;
       function ListarPorID(aID: Variant): iDAO<TCaixaMovimento>;
       function Excluir(aID: Variant): iDAO<TCaixaMovimento>; overload;
@@ -27,9 +27,9 @@ type
       function Inserir: iDAO<TCaixaMovimento>;
       function DataSource(var aDataSource: TDataSource): iDAO<TCaixaMovimento>;
       function DataSet: TDataSet;
+      function FindWhere(aField: string; aValue: Variant): iDAO<TCaixaMovimento>;
       function This: TCaixaMovimento;
       function These: TObjectList<TCaixaMovimento>;
-
   end;
 
 implementation
@@ -87,6 +87,46 @@ begin
                  'WHERE ID = :ID              ')
   .Params('ID', FCaixaMovimento.ID)
   .ExecSQL;
+end;
+
+function TDAOCaixaMovimento.FindWhere(aField: string;
+  aValue: Variant): iDAO<TCaixaMovimento>;
+begin
+  Result := Self;
+
+  FDataSet := FConexaoDB
+    .SQL('SELECT * FROM CAIXA_MOVIMENTO WHERE '+ aField + '=?')
+    .Params(0, aValue).Open.DataSet;
+
+  if not FDataSet.RecordCount > 1 then
+  begin
+    FDataSet.First;
+    while not FDataSet.Eof do
+    begin
+      FCaixaMovimentos.Add(
+        tCaixaMovimento.New
+        .SetID(FDataSet.FieldByName('id').AsInteger)
+        .SetIDOperador(FDataSet.FieldByName('id_operador').AsInteger)
+        .SetIDCaixa(FDataSet.FieldByName('id_caixa').AsInteger)
+        .SetIDTurno(FDataSet.FieldByName('id_turno').AsInteger)
+        .SetDataFechamento(FDataSet.FieldByName('data_fechamento').AsDateTime)
+        .SetSituacao(FDataSet.FieldByName('situacao').AsString)
+      );
+
+      FDataSet.Next;
+    end;
+    Exit;
+  end;
+
+  if not FDataSet.IsEmpty then
+    tCaixaMovimento.New
+    .SetID(FDataSet.FieldByName('id').AsInteger)
+    .SetIDOperador(FDataSet.FieldByName('id_operador').AsInteger)
+    .SetIDCaixa(FDataSet.FieldByName('id_caixa').AsInteger)
+    .SetIDTurno(FDataSet.FieldByName('id_turno').AsInteger)
+    .SetDataFechamento(FDataSet.FieldByName('data_fechamento').AsDateTime)
+    .SetSituacao(FDataSet.FieldByName('situacao').AsString);
+
 end;
 
 function TDAOCaixaMovimento.Excluir(aID: Variant): iDAO<TCaixaMovimento>;
@@ -163,7 +203,7 @@ begin
   FCaixaMovimento.Situacao := FDataSet.fieldbyname('SITUACAO').AsString;
 end;
 
-class function TDAOCaixaMovimento.New: iDAO<TCaixaMovimento>;
+class function TDAOCaixaMovimento.New: TDAOCaixaMovimento;
 begin
   Result := Self.Create;
 end;

@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, Data.DB, ACPDV.DataModule.DAO.Operador,
   ACPDV.DataModule.DAO.Caixa, ACPDV.DataModule.DAO.Turno, System.TypInfo,
   ACPDV.DataModule.Inferfaces.InterfaceGenericaDAO, System.Generics.Collections,
-  System.DateUtils;
+  System.DateUtils, ACPDV.DataModule.DAO.CaixaMovimento;
 
 type
   TTipoTurno = (MANHA, TARDE, NOITE, MADRUGADA);
@@ -26,6 +26,7 @@ type
     class function New: TdmOperador;
     function ValidarOperador(aUsuario, aSenha: string): Boolean;
     function NumeroCaixaTurno(aValue: string): TDictionary<string, string>;
+    function VerificarCaixaAberto :Boolean;
   end;
 
 implementation
@@ -97,6 +98,17 @@ begin
 
     Result := True;
   end;
+end;
+
+function TdmOperador.VerificarCaixaAberto: Boolean;
+var xDataSet: TDataSet;
+    xFechamento, xAbertura: TField;
+    xDAOCaixaMov: TDAOCaixaMovimento;
+begin
+  Result := False;
+
+  xDAOCaixaMov := TDAOCaixaMovimento.New;
+  xDataSet := xDAOCaixaMov
 end;
 
 { TTipoTurnoHelper }

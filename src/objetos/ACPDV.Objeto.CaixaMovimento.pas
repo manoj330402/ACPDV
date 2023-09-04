@@ -11,6 +11,7 @@ type tCaixaMovimento = class
     FID: Integer;
     FDataAbertura: TDateTime;
     FIDCaixa: Integer;
+
     procedure SetDataAbertura(const Value: TDateTime);
     procedure SetDataFechamento(const Value: TDateTime);
     procedure SetID(const Value: Integer);
@@ -18,8 +19,8 @@ type tCaixaMovimento = class
     procedure SetIDOperador(const Value: Integer);
     procedure SetIDTurno(const Value: Integer);
     procedure SetSituacao(const Value: String);
-
   public
+
     class function New: tCaixaMovimento;
     property ID: Integer read FID write SetID;
     property IDOperador: Integer read FIDOperador write SetIDOperador;

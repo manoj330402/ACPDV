@@ -445,12 +445,13 @@ end;
 
 procedure TfrmPrincipal.VerificaCaixaFechadoAberto;
 begin
-
-  pnlTitulo.Caption := 'Caixa Fechado';
-  pnlTitulo.Color := clMaroon;
-  AjustarCampos;
-  Exit;
-
+  if FController.Operador.VerificarCaixaAberto then
+  begin
+    pnlTitulo.Caption := 'Caixa Fechado';
+    pnlTitulo.Color := clMaroon;
+    AjustarCampos;
+    Exit;
+  end;
 
   pnlTitulo.Caption := 'Caixa Aberto';
   pnlTitulo.Color := $006CA226;
